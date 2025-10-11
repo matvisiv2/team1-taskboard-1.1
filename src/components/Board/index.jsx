@@ -11,7 +11,7 @@ import styles from "./Board.module.scss";
 import { BoardSkeleton } from "./Skeleton";
 
 export const Board = ({
-  _id,
+  id,
   title,
   createdAt,
   imageUrl,
@@ -34,7 +34,7 @@ export const Board = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/board/${_id}/edit`}>
+          <Link to={`/board/${id}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -52,12 +52,11 @@ export const Board = ({
         />
       )}
       <div className={styles.wrapper}>
-        <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
           <h2
             className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
           >
-            {isFullPost ? title : <Link to={`/board/${_id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/board/${id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags?.map((name) => (
@@ -78,6 +77,7 @@ export const Board = ({
             </li>
           </ul>
         </div>
+        <UserInfo {...user} additionalText={createdAt} />
       </div>
     </div>
   );

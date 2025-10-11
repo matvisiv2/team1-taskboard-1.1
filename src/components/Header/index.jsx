@@ -12,7 +12,7 @@ export const Header = () => {
 
   return (
     <div className={styles.root}>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
             <div>Taskboard 1.1</div>
