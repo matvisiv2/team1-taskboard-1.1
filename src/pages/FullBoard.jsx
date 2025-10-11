@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Post } from "../components/Post";
+import { Board } from "../components/Board";
 import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
 
-export const FullPost = () => {
+export const FullBoard = () => {
   return (
     <>
-      <Post
+      <Board
         id={1}
         title="Roast the code #1 | Rock Paper Scissors"
         imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
@@ -29,7 +29,7 @@ export const FullPost = () => {
           so we can all learn together. Now then, head over to the repo and
           roast as hard as you can!!
         </p>
-      </Post>
+      </Board>
       <CommentsBlock
         items={[
           {
