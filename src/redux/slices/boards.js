@@ -22,10 +22,6 @@ const initialState = {
     items: [],
     status: "loading",
   },
-  columns: {
-    items: [],
-    status: "loading",
-  },
 };
 
 const boardsSlice = createSlice({

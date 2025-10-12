@@ -14,13 +14,14 @@ export const Boards = () => {
   const user_id = 1;
 
   const dispatch = useDispatch();
-  const { boards, columns } = useSelector((state) => state.boards);
+  const { boards } = useSelector((state) => state.boards);
 
   const isBoardsLoading = boards.status === "loading";
 
   useEffect(() => {
-    dispatch(fetchBoardsWithStatistics(user_id));
-    // setTimeout(() => dispatch(fetchBoardsWithStatistics(user_id)), 2000);
+    // TODO: keep the first line, delete the second
+    // dispatch(fetchBoardsWithStatistics(user_id));
+    setTimeout(() => dispatch(fetchBoardsWithStatistics(user_id)), 1000);
   }, []);
 
   return (

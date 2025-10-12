@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Board } from "../components/Board";
 import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchColumnsWithTasks } from "../redux/slices/columns";
 
 export const FullBoard = () => {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+  const { columns } = useSelector((state) => state.boards);
+
+  useEffect(() => {
+    // TODO: keep the first line, delete the second
+    // dispatch(fetchColumnsWithTasks(id));
+    setTimeout(() => dispatch(fetchColumnsWithTasks(id)), 1000);
+  }, []);
+
   return (
     <>
       <Board
