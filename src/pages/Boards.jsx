@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Board } from "../components/Board";
 import { CommentsBlock } from "../components/CommentsBlock";
 import { TagsBlock } from "../components/TagsBlock";
-import { fetchBoards } from "../redux/slices/boards";
+import { fetchBoardsWithStatistics } from "../redux/slices/boards";
 import { Box, Stack } from "@mui/material";
 
 export const Boards = () => {
@@ -19,8 +19,8 @@ export const Boards = () => {
   const isBoardsLoading = boards.status === "loading";
 
   useEffect(() => {
-    dispatch(fetchBoards(user_id));
-    // setTimeout(() => dispatch(fetchBoards(user_id)), 2000);
+    dispatch(fetchBoardsWithStatistics(user_id));
+    // setTimeout(() => dispatch(fetchBoardsWithStatistics(user_id)), 2000);
   }, []);
 
   return (
@@ -43,7 +43,7 @@ export const Boards = () => {
           flexWrap: "nowrap",
         }}
       >
-        {(isBoardsLoading ? [...Array(5)] : boards.items).map((obj, index) =>
+        {(isBoardsLoading ? [...Array(5)] : boards.items).map((board, index) =>
           isBoardsLoading ? (
             <Grid key={`grid-board-${index}`} item sx={{ minWidth: 300 }}>
               <Board isLoading={true} />
@@ -51,16 +51,16 @@ export const Boards = () => {
           ) : (
             <Grid key={`grid-board-${index}`} item sx={{ minWidth: 300 }}>
               <Board
-                id={obj.id}
-                title={obj.title}
+                id={board.id}
+                title={board.title}
                 imageUrl=""
                 user={{
                   avatarUrl: "",
-                  fullName: `${obj.first_name} ${obj.last_name}`,
+                  fullName: `${board.first_name} ${board.last_name}`,
                 }}
-                createdAt={obj.created_at}
-                viewsCount={150}
-                commentsCount={3}
+                createdAt={board.created_at}
+                columnCount={board.column_count}
+                taskCount={board.task_count}
                 tags={["react", "fun", "typescript"]}
                 isEditable
               />
