@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Column } from "../components/Column";
+import { Column } from "../../components/Column";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchColumnsWithTasks } from "../redux/slices/columns";
+import { fetchColumnsWithTasks } from "../../redux/slices/columns";
 import { Box, Grid } from "@mui/material";
 
 export const FullBoard = () => {

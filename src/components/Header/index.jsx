@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 
 import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
-import AccountMenu from "../Menus/AccountMenu";
+import { AccountMenu } from "../Menus/AccountMenu";
 
 export const Header = () => {
   const isAuth = false;

@@ -4,10 +4,10 @@ import Tabs from "@mui/material/Tabs";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Board } from "../components/Board";
-import { CommentsBlock } from "../components/CommentsBlock";
-import { TagsBlock } from "../components/TagsBlock";
-import { fetchBoardsWithStatistics } from "../redux/slices/boards";
+import { Board } from "../../components/Board";
+import { CommentsBlock } from "../../components/CommentsBlock";
+import { TagsBlock } from "../../components/TagsBlock";
+import { fetchBoardsWithStatistics } from "../../redux/slices/boards";
 import { Box, Stack } from "@mui/material";
 
 export const Boards = () => {
