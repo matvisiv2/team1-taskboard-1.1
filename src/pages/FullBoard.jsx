@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-import { Board } from "../components/Board";
-import { Index } from "../components/AddComment";
-import { CommentsBlock } from "../components/CommentsBlock";
+import { Column } from "../components/Column";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchColumnsWithTasks } from "../redux/slices/columns";
+import { Box, Grid } from "@mui/material";
 
 export const FullBoard = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const { columns } = useSelector((state) => state.boards);
+  const { columns } = useSelector((state) => state.columns);
+
+  const isColumnsLoading = columns.status === "loading";
 
   useEffect(() => {
     // TODO: keep the first line, delete the second
@@ -20,50 +21,40 @@ export const FullBoard = () => {
   }, []);
 
   return (
-    <>
-      <Board
-        id={1}
-        title="Roast the code #1 | Rock Paper Scissors"
-        imageUrl=""
-        user={{
-          avatarUrl: "",
-          fullName: "Keff",
-        }}
-        createdAt={"12 июня 2022 г."}
-        viewsCount={150}
-        commentsCount={3}
-        tags={["react", "fun", "typescript"]}
-        isFullPost
-      >
-        <p>
-          Hey there! 👋 I'm starting a new series called "Roast the Code", where
-          I will share some code, and let YOU roast and improve it. There's not
-          much more to it, just be polite and constructive, this is an exercise
-          so we can all learn together. Now then, head over to the repo and
-          roast as hard as you can!!
-        </p>
-      </Board>
-      <CommentsBlock
-        items={[
-          {
-            user: {
-              fullName: "Вася Пупкин",
-              avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-            },
-            text: "Это тестовый комментарий 555555",
-          },
-          {
-            user: {
-              fullName: "Иван Иванов",
-              avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-            },
-            text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-          },
-        ]}
-        isLoading={false}
-      >
-        <Index />
-      </CommentsBlock>
-    </>
+    <Grid
+      container
+      direction="row"
+      spacing={4}
+      wrap="nowrap"
+      sx={{
+        overflowX: "auto",
+        flexWrap: "nowrap",
+      }}
+    >
+      {(isColumnsLoading ? [...Array(15)] : columns.items).map(
+        (column, index) =>
+          isColumnsLoading ? (
+            <Grid key={`grid-column-${index}`} item sx={{ minWidth: 300 }}>
+              <Column isLoading={true} />
+            </Grid>
+          ) : (
+            <Grid key={`grid-column-${index}`} item sx={{ minWidth: 300 }}>
+              <Column
+                id={column.id}
+                title={column.title}
+                tasks={column.tasks}
+                imageUrl=""
+                user={{
+                  avatarUrl: "",
+                  fullName: `${column.first_name} ${column.last_name}`,
+                }}
+                createdAt={column.created_at}
+                tags={["react", "fun", "typescript"]}
+                isEditable
+              />
+            </Grid>
+          ),
+      )}
+    </Grid>
   );
 };

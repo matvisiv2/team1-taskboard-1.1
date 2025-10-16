@@ -17,6 +17,14 @@ export const fetchColumnsWithTasks = createAsyncThunk(
   },
 );
 
+export const fetchRemoveColumn = createAsyncThunk(
+  "columns/fetchRemoveColumn",
+  async (id) => {
+    const { data } = await axios.delete(`/column/${id}`);
+    return data;
+  },
+);
+
 const initialState = {
   columns: {
     items: [],
@@ -52,6 +60,21 @@ const columnsSlice = createSlice({
         state.columns.status = "loaded";
       })
       .addCase(fetchColumnsWithTasks.rejected, (state) => {
+        state.columns.items = [];
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchRemoveColumn.pending, (state, action) => {
+        state.columns.items = state.columns.items.filter(
+          (obj) => obj.id !== action.meta.arg,
+        );
+        state.columns.status = "loading";
+      })
+      .addCase(fetchRemoveColumn.fulfilled, (state, action) => {
+        state.columns.items = action.payload;
+        state.columns.status = "loaded";
+      })
+      .addCase(fetchRemoveColumn.rejected, (state) => {
         state.columns.items = [];
         state.columns.status = "error";
       });
