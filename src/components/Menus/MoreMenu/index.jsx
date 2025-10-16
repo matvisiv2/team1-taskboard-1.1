@@ -18,7 +18,7 @@ export const MoreMenu = ({ handleRemove }) => {
     setAnchorEl(null);
   };
 
-  const handleDelete = () => {
+  const handleOnCliskDelete = () => {
     handleClose();
     // TODO: add request to delete a column with id
     handleRemove();
@@ -47,7 +47,7 @@ export const MoreMenu = ({ handleRemove }) => {
         }}
       >
         {handleRemove && (
-          <MenuItem onClick={handleDelete}>
+          <MenuItem onClick={handleOnCliskDelete}>
             <DeleteIcon />
             Delete
           </MenuItem>

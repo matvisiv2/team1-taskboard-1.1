@@ -68,15 +68,6 @@ const columnsSlice = createSlice({
         state.columns.items = state.columns.items.filter(
           (obj) => obj.id !== action.meta.arg,
         );
-        state.columns.status = "loading";
-      })
-      .addCase(fetchRemoveColumn.fulfilled, (state, action) => {
-        state.columns.items = action.payload;
-        state.columns.status = "loaded";
-      })
-      .addCase(fetchRemoveColumn.rejected, (state) => {
-        state.columns.items = [];
-        state.columns.status = "error";
       });
   },
 });
