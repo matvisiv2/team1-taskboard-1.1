@@ -6,10 +6,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { UserInfo } from "../UserInfo";
 import styles from "./Board.module.scss";
 import { BoardSkeleton } from "./Skeleton";
+import { MoreMenu } from "../Menus/MoreMenu";
+import { fetchRemoveBoard } from "../../redux/slices/boards";
 
 export const Board = ({
   id,
@@ -21,11 +24,15 @@ export const Board = ({
   isLoading,
   isEditable,
 }) => {
+  const dispatch = useDispatch();
+
   if (isLoading) {
     return <BoardSkeleton />;
   }
 
-  const onClickRemove = () => {};
+  const removeBoard = () => {
+    dispatch(fetchRemoveBoard(id));
+  };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
@@ -33,16 +40,17 @@ export const Board = ({
         <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
           <Link to={`/board/${id}`}>{title}</Link>
           {isEditable && (
-            <div className={styles.editButtons}>
-              <Link to={`/board/${id}/edit`}>
-                <IconButton color="primary">
-                  <EditIcon />
-                </IconButton>
-              </Link>
-              <IconButton onClick={onClickRemove} color="secondary">
-                <DeleteIcon />
-              </IconButton>
-            </div>
+            // <div className={styles.editButtons}>
+            //   <Link to={`/board/${id}/edit`}>
+            //     <IconButton color="primary">
+            //       <EditIcon />
+            //     </IconButton>
+            //   </Link>
+            //   <IconButton onClick={onClickRemove} color="secondary">
+            //     <DeleteIcon />
+            //   </IconButton>
+            // </div>
+            <MoreMenu handleRemove={removeBoard} />
           )}
         </h2>
         {children && <div className={styles.content}>{children}</div>}

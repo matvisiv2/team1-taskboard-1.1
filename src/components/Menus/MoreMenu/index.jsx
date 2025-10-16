@@ -11,16 +11,17 @@ import styles from "./MoreMenu.module.scss";
 export const MoreMenu = ({ handleRemove }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleOnCliskDelete = () => {
+  const handleOnClickDelete = () => {
     handleClose();
-    // TODO: add request to delete a column with id
     handleRemove();
   };
 
@@ -47,7 +48,7 @@ export const MoreMenu = ({ handleRemove }) => {
         }}
       >
         {handleRemove && (
-          <MenuItem onClick={handleOnCliskDelete}>
+          <MenuItem onClick={handleOnClickDelete}>
             <DeleteIcon />
             Delete
           </MenuItem>

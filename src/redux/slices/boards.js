@@ -20,7 +20,7 @@ export const fetchBoardsWithStatistics = createAsyncThunk(
 export const fetchRemoveBoard = createAsyncThunk(
   "boards/fetchRemoveBoard",
   async (id) => {
-    const { data } = await axios.delete(`/boards/${id}`);
+    const { data } = await axios.delete(`/board/${id}`);
     return data;
   },
 );
@@ -64,17 +64,10 @@ const boardsSlice = createSlice({
         state.boards.status = "error";
       })
 
-      .addCase(fetchRemoveBoard.pending, (state) => {
-        state.boards.items = [];
-        state.boards.status = "loading";
-      })
-      .addCase(fetchRemoveBoard.fulfilled, (state, action) => {
-        state.boards.items = action.payload;
-        state.boards.status = "loaded";
-      })
-      .addCase(fetchRemoveBoard.rejected, (state) => {
-        state.boards.items = [];
-        state.boards.status = "error";
+      .addCase(fetchRemoveBoard.pending, (state, action) => {
+        state.boards.items = state.boards.items.filter(
+          (obj) => obj.id !== action.meta.arg,
+        );
       });
   },
 });
