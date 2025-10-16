@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 
 import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
+import AccountMenu from "../Menus/AccountMenu";
 
 export const Header = () => {
   const isAuth = false;
@@ -20,7 +21,7 @@ export const Header = () => {
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-                <Link to="/posts/create">
+                {/* <Link to="/posts/create">
                   <Button variant="contained">Створити дошку</Button>
                 </Link>
                 <Button
@@ -29,7 +30,8 @@ export const Header = () => {
                   color="error"
                 >
                   Вийти
-                </Button>
+                </Button> */}
+                <AccountMenu />
               </>
             ) : (
               <>
