@@ -27,5 +27,3 @@ export const theme = createTheme({
     },
   },
 });
-
-// export const theme = createTheme(); // standart shadows 0–24

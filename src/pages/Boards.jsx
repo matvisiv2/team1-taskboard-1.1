@@ -42,15 +42,16 @@ export const Boards = () => {
         sx={{
           overflowX: "auto",
           flexWrap: "nowrap",
+          padding: "2px 2px 0 2px",
         }}
       >
         {(isBoardsLoading ? [...Array(5)] : boards.items).map((board, index) =>
           isBoardsLoading ? (
-            <Grid key={`grid-board-${index}`} item sx={{ minWidth: 300 }}>
+            <Grid key={`grid-board-${index}`} sx={{ minWidth: 300 }}>
               <Board isLoading={true} />
             </Grid>
           ) : (
-            <Grid key={`grid-board-${index}`} item sx={{ minWidth: 300 }}>
+            <Grid key={`grid-board-${index}`} sx={{ minWidth: 300 }}>
               <Board
                 id={board.id}
                 title={board.title}
