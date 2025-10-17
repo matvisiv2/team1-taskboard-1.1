@@ -18,9 +18,9 @@ function App () {
             <Route path="/" element={<Navigate to="/boards" replace />} />
             <Route path="/boards" element={<Boards />} />
             <Route path="/board/:id" element={<FullBoard />} />
+            <Route path="/login" element={<Login />} />
             {/* <Route path="/account" element={<Account />} /> */}
             {/* <Route path="/registration" element={<Registration />} /> */}
-            {/* <Route path="/registration" element={<Login />} /> */}
           </Routes>
         </Container>
       </Box>
