@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import { Box } from "@mui/material";
 
 import { Header } from "./components";
-import { Boards, FullBoard, Registration, AddPost, Login } from "./pages";
+import { Boards, FullBoard, AddPost, SignIn, SignUp } from "./pages";
 
 function App () {
   return (
@@ -18,9 +18,9 @@ function App () {
             <Route path="/" element={<Navigate to="/boards" replace />} />
             <Route path="/boards" element={<Boards />} />
             <Route path="/board/:id" element={<FullBoard />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
             {/* <Route path="/account" element={<Account />} /> */}
-            {/* <Route path="/registration" element={<Registration />} /> */}
           </Routes>
         </Container>
       </Box>

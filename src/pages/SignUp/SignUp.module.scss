@@ -3,6 +3,9 @@
   padding: 50px;
   border: 1px solid #dedede;
   margin: 50px auto;
+
+  align-self: flex-start;
+  height: auto;
 }
 
 .field {
@@ -13,4 +16,10 @@
   text-align: center !important;
   font-weight: bold !important;
   margin-bottom: 30px !important;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }

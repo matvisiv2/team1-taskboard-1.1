@@ -5,10 +5,10 @@ import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import styles from "./Login.module.scss";
-import { fetchAuth } from "../../redux/slices/auth";
+import styles from "./SignIn.module.scss";
+import { fetchSignIn } from "../../redux/slices/auth";
 
-export const Login = () => {
+export const SignIn = () => {
   const dispatch = useDispatch();
 
   const {
@@ -25,7 +25,7 @@ export const Login = () => {
   });
 
   const onSubmit = (values) => {
-    dispatch(fetchAuth(values));
+    dispatch(fetchSignIn(values));
   };
 
   return (

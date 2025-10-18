@@ -1,10 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchAuth = createAsyncThunk(
-  "auth/fetchAuth",
+export const fetchSignIn = createAsyncThunk("auth/fetchSignIn", async (params) => {
+  const { data } = await axios.post("/auth/signin", params);
+  return data;
+});
+
+export const fetchSignUp = createAsyncThunk(
+  "auth/fetchSignUp",
   async (params) => {
-    const { data } = await axios.post("/auth/login", params);
+    const { data } = await axios.post("/auth/signup", params);
     return data;
   },
 );
@@ -20,15 +25,28 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuth.pending, (state) => {
+      .addCase(fetchSignIn.pending, (state) => {
         state.status = "loading";
         state.data = null;
       })
-      .addCase(fetchAuth.fulfilled, (state, action) => {
+      .addCase(fetchSignIn.fulfilled, (state, action) => {
         state.status = "loaded";
         state.data = action.payload;
       })
-      .addCase(fetchAuth.rejected, (state) => {
+      .addCase(fetchSignIn.rejected, (state) => {
+        state.status = "error";
+        state.data = null;
+      })
+
+      .addCase(fetchSignUp.pending, (state) => {
+        state.status = "loading";
+        state.data = null;
+      })
+      .addCase(fetchSignUp.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchSignUp.rejected, (state) => {
         state.status = "error";
         state.data = null;
       });

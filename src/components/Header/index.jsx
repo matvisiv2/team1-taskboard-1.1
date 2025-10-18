@@ -35,11 +35,11 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
-                  <Button variant="outlined">Увійти</Button>
+                <Link to="/signin">
+                  <Button variant="outlined">Sign In</Button>
                 </Link>
-                <Link to="/register">
-                  <Button variant="contained">Створити аккаунт</Button>
+                <Link to="/signup">
+                  <Button variant="contained">Sign Up</Button>
                 </Link>
               </>
             )}
