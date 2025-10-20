@@ -3,16 +3,16 @@ import axios from "../../axios";
 
 export const fetchBoards = createAsyncThunk(
   "boards/fetchBoards",
-  async (user_id) => {
-    const { data } = await axios.get(`/boards/${user_id}`);
+  async (userId) => {
+    const { data } = await axios.get(`/boards/${userId}`);
     return data;
   },
 );
 
 export const fetchBoardsWithStatistics = createAsyncThunk(
   "boards/fetchBoardsWithStatistics",
-  async (user_id) => {
-    const { data } = await axios.get(`/boards-with-statistics/${user_id}`);
+  async (userId) => {
+    const { data } = await axios.get(`/boards-with-statistics/${userId}`);
     return data;
   },
 );

@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchSignIn = createAsyncThunk("auth/fetchSignIn", async (params) => {
-  const { data } = await axios.post("/auth/signin", params);
-  return data;
-});
+export const fetchSignIn = createAsyncThunk(
+  "auth/fetchSignIn",
+  async (params) => {
+    const { data } = await axios.post("/auth/signin", params);
+    return data;
+  },
+);
 
 export const fetchSignUp = createAsyncThunk(
   "auth/fetchSignUp",
@@ -22,7 +25,11 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.data = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSignIn.pending, (state) => {
@@ -53,4 +60,10 @@ const authSlice = createSlice({
   },
 });
 
+export const selectIsAuth = (state) => Boolean(state.auth.data);
+
+export const getMe = (state) => state.auth.data;
+
 export const authReducer = authSlice.reducer;
+
+export const { logout } = authSlice.actions;

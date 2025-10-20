@@ -3,16 +3,16 @@ import axios from "../../axios";
 
 export const fetchColumns = createAsyncThunk(
   "columns/fetchColumns",
-  async (board_id) => {
-    const { data } = await axios.get(`/columns/${board_id}`);
+  async (boardId) => {
+    const { data } = await axios.get(`/columns/${boardId}`);
     return data;
   },
 );
 
 export const fetchColumnsWithTasks = createAsyncThunk(
   "columns/fetchColumnsWithTasks",
-  async (board_id) => {
-    const { data } = await axios.get(`/columns-with-tasks/${board_id}`);
+  async (boardId) => {
+    const { data } = await axios.get(`/columns-with-tasks/${boardId}`);
     return data;
   },
 );

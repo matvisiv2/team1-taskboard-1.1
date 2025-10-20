@@ -10,16 +10,29 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/auth";
 
 export const AccountMenu = () => {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const onClickLogout = () => {
+    handleClose();
+    if (window.confirm("Are you sure you want to logout?")) {
+      dispatch(logout());
+      window.localStorage.removeItem("token");
+    }
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -92,7 +105,7 @@ export const AccountMenu = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={onClickLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

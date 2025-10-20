@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SignIn.module.scss";
-import { fetchSignIn } from "../../redux/slices/auth";
+import { fetchSignIn, selectIsAuth } from "../../redux/slices/auth";
+import { Navigate } from "react-router-dom";
 
 export const SignIn = () => {
+  const isAuth = useSelector(selectIsAuth);
+
   const dispatch = useDispatch();
 
   const {
@@ -24,9 +27,21 @@ export const SignIn = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (values) => {
-    dispatch(fetchSignIn(values));
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchSignIn(values));
+
+    if (!data.payload) {
+      return alert("Authorization failed");
+    }
+
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
+
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Paper classes={{ root: styles.root }}>

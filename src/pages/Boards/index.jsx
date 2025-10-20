@@ -11,7 +11,7 @@ import { fetchBoardsWithStatistics } from "../../redux/slices/boards";
 import { Box, Stack } from "@mui/material";
 
 export const Boards = () => {
-  const user_id = 3;
+  const userId = 1;
 
   const dispatch = useDispatch();
   const { boards } = useSelector((state) => state.boards);
@@ -20,8 +20,8 @@ export const Boards = () => {
 
   useEffect(() => {
     // TODO: keep the first line, delete the second
-    // dispatch(fetchBoardsWithStatistics(user_id));
-    setTimeout(() => dispatch(fetchBoardsWithStatistics(user_id)), 1000);
+    // dispatch(fetchBoardsWithStatistics(userId));
+    setTimeout(() => dispatch(fetchBoardsWithStatistics(userId)), 1000);
   }, []);
 
   return (

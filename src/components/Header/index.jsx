@@ -1,15 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
-import styles from "./Header.module.scss";
 import Container from "@mui/material/Container";
+import { useSelector } from "react-redux";
+import { getMe, selectIsAuth } from "../../redux/slices/auth";
 import { AccountMenu } from "../Menus/AccountMenu";
+import styles from "./Header.module.scss";
 
 export const Header = () => {
-  const isAuth = false;
-
-  const onClickLogout = () => {};
+  const isAuth = useSelector(selectIsAuth);
+  const me = useSelector(getMe);
 
   return (
     <div className={styles.root}>
@@ -18,21 +18,12 @@ export const Header = () => {
           <Link className={styles.logo} to="/">
             <div>Taskboard 1.1</div>
           </Link>
+          <Link className={styles.user} to="/profile">
+            {me?.firstName} {me?.lastName}
+          </Link>
           <div className={styles.buttons}>
             {isAuth ? (
-              <>
-                {/* <Link to="/posts/create">
-                  <Button variant="contained">Створити дошку</Button>
-                </Link>
-                <Button
-                  onClick={onClickLogout}
-                  variant="contained"
-                  color="error"
-                >
-                  Вийти
-                </Button> */}
-                <AccountMenu />
-              </>
+              <AccountMenu />
             ) : (
               <>
                 <Link to="/signin">
