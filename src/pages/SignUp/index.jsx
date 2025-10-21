@@ -22,17 +22,25 @@ export const SignUp = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      firstName: "TestFirst",
-      lastName: "TestLast",
+      firstName: "Test",
+      lastName: "Test",
       email: "test@gmail.com",
-      password: "test",
-      confirmPassword: "test",
+      password: "test1234",
+      confirmPassword: "test1234",
     },
     mode: "onChange",
   });
 
-  const onSubmit = (values) => {
-    dispatch(fetchSignUp(values));
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchSignUp(values));
+
+    if (!data.payload) {
+      return alert("Registration failed");
+    }
+
+    if ("token" in data.payload.result) {
+      window.localStorage.setItem("token", data.payload.result.token);
+    }
   };
 
   if (isAuth) {

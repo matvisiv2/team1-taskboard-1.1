@@ -5,9 +5,9 @@ import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-import styles from "./SignIn.module.scss";
-import { fetchSignIn, selectIsAuth } from "../../redux/slices/auth";
 import { Navigate } from "react-router-dom";
+import { fetchSignIn, selectIsAuth } from "../../redux/slices/auth";
+import styles from "./SignIn.module.scss";
 
 export const SignIn = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -22,7 +22,7 @@ export const SignIn = () => {
   } = useForm({
     defaultValues: {
       email: "test@gmail.com",
-      password: "test",
+      password: "test1234",
     },
     mode: "onChange",
   });
@@ -34,8 +34,8 @@ export const SignIn = () => {
       return alert("Authorization failed");
     }
 
-    if ("token" in data.payload) {
-      window.localStorage.setItem("token", data.payload.token);
+    if ("token" in data.payload.result) {
+      window.localStorage.setItem("token", data.payload.result.token);
     }
   };
 
