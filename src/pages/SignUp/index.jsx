@@ -6,11 +6,13 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 
 import styles from "./SignUp.module.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { fetchSignUp } from "../../redux/slices/auth";
+import { fetchSignUp, selectIsAuth } from "../../redux/slices/auth";
+import { Navigate } from "react-router-dom";
 
 export const SignUp = () => {
+  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
 
   const {
@@ -32,6 +34,10 @@ export const SignUp = () => {
   const onSubmit = (values) => {
     dispatch(fetchSignUp(values));
   };
+
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Paper classes={{ root: styles.root }}>
