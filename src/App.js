@@ -4,8 +4,18 @@ import { Box } from "@mui/material";
 
 import { Header } from "./components";
 import { Boards, FullBoard, AddPost, SignIn, SignUp } from "./pages";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
 
 function App () {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+
+  useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
+
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -15,12 +25,17 @@ function App () {
           sx={{ display: "flex", overflowX: "auto", flex: 1 }}
         >
           <Routes>
-            <Route path="/" element={<Navigate to="/boards" replace />} />
-            <Route path="/boards" element={<Boards />} />
-            <Route path="/board/:id" element={<FullBoard />} />
+            {isAuth && (
+              <>
+                <Route path="/" element={<Navigate to="/boards" replace />} />
+                <Route path="/boards" element={<Boards />} />
+                <Route path="/board/:id" element={<FullBoard />} />
+                {/* <Route path="/account" element={<Account />} /> */}
+              </>
+            )}
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            {/* <Route path="/account" element={<Account />} /> */}
+            <Route path="*" element={<Navigate to="/signin" replace />} />
           </Routes>
         </Container>
       </Box>

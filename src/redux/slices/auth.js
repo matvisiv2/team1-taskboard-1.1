@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
+export const fetchSignUp = createAsyncThunk(
+  "auth/fetchSignUp",
+  async (params) => {
+    const { data } = await axios.post("/auth/signup", params);
+    return data;
+  },
+);
+
 export const fetchSignIn = createAsyncThunk(
   "auth/fetchSignIn",
   async (params) => {
@@ -9,13 +17,10 @@ export const fetchSignIn = createAsyncThunk(
   },
 );
 
-export const fetchSignUp = createAsyncThunk(
-  "auth/fetchSignUp",
-  async (params) => {
-    const { data } = await axios.post("/auth/signup", params);
-    return data;
-  },
-);
+export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
+  const { data } = await axios.get("/auth/me");
+  return data;
+});
 
 const initialState = {
   data: null,
@@ -32,6 +37,21 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // SignUp
+      .addCase(fetchSignUp.pending, (state) => {
+        state.status = "loading";
+        state.data = null;
+      })
+      .addCase(fetchSignUp.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchSignUp.rejected, (state) => {
+        state.status = "error";
+        state.data = null;
+      })
+
+      // SingnIn
       .addCase(fetchSignIn.pending, (state) => {
         state.status = "loading";
         state.data = null;
@@ -45,17 +65,18 @@ const authSlice = createSlice({
         state.data = null;
       })
 
-      .addCase(fetchSignUp.pending, (state) => {
+      // fetchAuthMe
+      .addCase(fetchAuthMe.pending, (state) => {
+        state.data = null;
         state.status = "loading";
-        state.data = null;
       })
-      .addCase(fetchSignUp.fulfilled, (state, action) => {
-        state.status = "loaded";
+      .addCase(fetchAuthMe.fulfilled, (state, action) => {
         state.data = action.payload;
+        state.status = "loaded";
       })
-      .addCase(fetchSignUp.rejected, (state) => {
-        state.status = "error";
+      .addCase(fetchAuthMe.rejected, (state) => {
         state.data = null;
+        state.status = "error";
       });
   },
 });

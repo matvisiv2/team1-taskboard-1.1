@@ -1,18 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchBoards = createAsyncThunk(
-  "boards/fetchBoards",
-  async (userId) => {
-    const { data } = await axios.get(`/boards/${userId}`);
-    return data;
-  },
-);
+export const fetchBoards = createAsyncThunk("boards/fetchBoards", async () => {
+  const { data } = await axios.get("/boards");
+  return data;
+});
 
 export const fetchBoardsWithStatistics = createAsyncThunk(
   "boards/fetchBoardsWithStatistics",
-  async (userId) => {
-    const { data } = await axios.get(`/boards-with-statistics/${userId}`);
+  async () => {
+    const { data } = await axios.get("/boards-with-statistics");
     return data;
   },
 );

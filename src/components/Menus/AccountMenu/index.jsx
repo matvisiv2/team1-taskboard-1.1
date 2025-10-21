@@ -12,9 +12,11 @@ import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/auth";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const AccountMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -31,6 +33,8 @@ export const AccountMenu = () => {
       dispatch(logout());
       window.localStorage.removeItem("token");
     }
+
+    navigate("/signin");
   };
 
   return (
