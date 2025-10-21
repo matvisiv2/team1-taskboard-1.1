@@ -44,7 +44,7 @@ const authSlice = createSlice({
       })
       .addCase(fetchSignUp.fulfilled, (state, action) => {
         state.status = "loaded";
-        state.data = action.payload;
+        state.data = action.payload.result;
       })
       .addCase(fetchSignUp.rejected, (state) => {
         state.status = "error";
@@ -58,7 +58,7 @@ const authSlice = createSlice({
       })
       .addCase(fetchSignIn.fulfilled, (state, action) => {
         state.status = "loaded";
-        state.data = action.payload;
+        state.data = action.payload.result;
       })
       .addCase(fetchSignIn.rejected, (state) => {
         state.status = "error";
@@ -71,7 +71,7 @@ const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchAuthMe.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.data = action.payload.result;
         state.status = "loaded";
       })
       .addCase(fetchAuthMe.rejected, (state) => {
