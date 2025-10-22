@@ -32,7 +32,7 @@ export const FullBoard = () => {
         padding: "2px 2px 0 2px",
       }}
     >
-      {(isColumnsLoading ? [...Array(15)] : columns.items).map(
+      {(isColumnsLoading ? [...Array(5)] : columns.items).map(
         (column, index) =>
           isColumnsLoading ? (
             <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
