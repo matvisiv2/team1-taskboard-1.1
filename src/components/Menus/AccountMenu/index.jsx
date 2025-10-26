@@ -49,7 +49,7 @@ export const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src="https://mui.com/static/images/avatar/5.jpg" sx={{ width: 32, height: 32 }}>M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>

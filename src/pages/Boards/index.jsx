@@ -1,14 +1,10 @@
+import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { BoardCreateForm } from "../../components";
 import { Board } from "../../components/Board";
-import { CommentsBlock } from "../../components/CommentsBlock";
-import { TagsBlock } from "../../components/TagsBlock";
 import { fetchBoardsWithStatistics } from "../../redux/slices/boards";
-import { Box, Stack } from "@mui/material";
 
 export const Boards = () => {
   const dispatch = useDispatch();
@@ -24,14 +20,6 @@ export const Boards = () => {
 
   return (
     <Box>
-      <Tabs
-        style={{ marginBottom: 15 }}
-        value={0}
-        aria-label="basic tabs example"
-      >
-        <Tab label="New" />
-        <Tab label="Popular" />
-      </Tabs>
       <Grid
         container
         direction="row"
@@ -43,7 +31,7 @@ export const Boards = () => {
           padding: "2px 2px 0 2px",
         }}
       >
-        {(isBoardsLoading ? [...Array(5)] : boards.items).map((board, index) =>
+        {(isBoardsLoading ? [...Array(3)] : boards.items).map((board, index) =>
           isBoardsLoading ? (
             <Grid key={`grid-board-${index}`} sx={{ minWidth: 300 }}>
               <Board isLoading={true} />
@@ -51,22 +39,18 @@ export const Boards = () => {
           ) : (
             <Grid key={`grid-board-${index}`} sx={{ minWidth: 300 }}>
               <Board
-                id={board.id}
-                title={board.title}
+                board={board}
                 imageUrl=""
                 user={{
                   avatarUrl: "",
-                  fullName: `${board.first_name} ${board.last_name}`,
+                  fullName: `${board.firstName} ${board.lastName}`,
                 }}
-                createdAt={board.created_at}
-                columnCount={board.column_count}
-                taskCount={board.task_count}
-                tags={["react", "fun", "typescript"]}
                 isEditable
               />
             </Grid>
           ),
         )}
+        <BoardCreateForm />
       </Grid>
     </Box>
   );

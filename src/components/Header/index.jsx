@@ -1,8 +1,9 @@
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-
 import Container from "@mui/material/Container";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+
 import { getMe, selectIsAuth } from "../../redux/slices/auth";
 import { AccountMenu } from "../Menus/AccountMenu";
 import styles from "./Header.module.scss";
@@ -16,7 +17,12 @@ export const Header = () => {
       <Container maxWidth="xl">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
-            <div>Taskboard 1.1</div>
+            <div className={styles.insideLogo}>
+              <div>
+                <FormatListNumberedIcon className={styles.logoIcon}/>
+              </div>
+              <div>Taskboard 1.1</div>
+            </div>
           </Link>
           <Link className={styles.user} to="/profile">
             {me?.firstName} {me?.lastName}

@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
+export const fetchBoardCreate = createAsyncThunk(
+  "board/fetchCreateBoard",
+  async (values) => {
+    const { data } = await axios.post("/board", values);
+    return data;
+  },
+);
+
 export const fetchBoards = createAsyncThunk("boards/fetchBoards", async () => {
   const { data } = await axios.get("/boards");
   return data;
@@ -14,8 +22,16 @@ export const fetchBoardsWithStatistics = createAsyncThunk(
   },
 );
 
-export const fetchRemoveBoard = createAsyncThunk(
-  "boards/fetchRemoveBoard",
+export const fetchBoardChangeTitle = createAsyncThunk(
+  "board/fetchBoardChangeTitle",
+  async ({ id, values }) => {
+    const { data } = await axios.patch(`/board/${id}`, values);
+    return data;
+  },
+);
+
+export const fetchBoardRemove = createAsyncThunk(
+  "boards/fetchBoardRemove",
   async (id) => {
     const { data } = await axios.delete(`/board/${id}`);
     return data;
@@ -35,6 +51,27 @@ const boardsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchBoardCreate.pending, (state) => {
+        // TODO: clean or do something
+        // state.boards.items = [];
+        // state.boards.status = "loading";
+      })
+      .addCase(fetchBoardCreate.fulfilled, (state, action) => {
+        state.boards.items.push({
+          ...action.payload,
+          columnCount: 3,
+          taskCount: 0,
+          commentCount: 0,
+        });
+        // TODO: keep if needed
+        state.boards.status = "loaded";
+      })
+      .addCase(fetchBoardCreate.rejected, (state) => {
+        // TODO: clean or do something
+        // state.boards.items = [];
+        // state.boards.status = "error";
+      })
+
       .addCase(fetchBoards.pending, (state) => {
         state.boards.items = [];
         state.boards.status = "loading";
@@ -61,10 +98,20 @@ const boardsSlice = createSlice({
         state.boards.status = "error";
       })
 
-      .addCase(fetchRemoveBoard.pending, (state, action) => {
-        state.boards.items = state.boards.items.filter(
-          (obj) => obj.id !== action.meta.arg,
-        );
+      .addCase(fetchBoardChangeTitle.fulfilled, (state, action) => {
+        const id = action.payload.id;
+        const board = state.boards.items.find((board) => board.id == id);
+        board.title = action.payload.title;
+        state.boards.status = "loaded";
+      })
+
+      .addCase(fetchBoardRemove.pending, (state, action) => {
+        state.boards.status = "loading";
+      })
+      .addCase(fetchBoardRemove.fulfilled, (state, action) => {
+        const id = action.meta.arg;
+        state.boards.items = state.boards.items.filter((obj) => obj.id !== id);
+        state.boards.status = "loaded";
       });
   },
 });

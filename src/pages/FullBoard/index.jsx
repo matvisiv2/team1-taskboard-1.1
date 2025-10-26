@@ -47,9 +47,9 @@ export const FullBoard = () => {
                 imageUrl=""
                 user={{
                   avatarUrl: "",
-                  fullName: `${column.first_name} ${column.last_name}`,
+                  fullName: `${column.firstName} ${column.lastName}`,
                 }}
-                createdAt={column.created_at}
+                createdAt={column.createdAt}
                 tags={["react", "fun", "typescript"]}
                 isEditable
               />

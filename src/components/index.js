@@ -3,7 +3,7 @@ export * from "./Board";
 export * from "./CommentsBlock";
 export * from "./Header";
 export * from "./Menus";
+export * from "./Forms";
 export * from "./SideBlock";
 export * from "./TagsBlock";
 export * from "./UserInfo";
-
