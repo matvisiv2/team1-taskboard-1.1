@@ -7,6 +7,7 @@ import { Boards, FullBoard, AddPost, SignIn, SignUp } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
+import GlobalSnackbar from "./components/GlobalSnackbar/GlobalSnackbar";
 
 function App () {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App () {
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<Navigate to="/signin" replace />} />
           </Routes>
+          <GlobalSnackbar />
         </Container>
       </Box>
     </>

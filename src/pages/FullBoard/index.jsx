@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { Column } from "../../components/Column";
-import { useParams } from "react-router-dom";
+import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Column } from "../../components/Column";
 import { fetchColumnsWithTasks } from "../../redux/slices/columns";
-import { Box, Grid } from "@mui/material";
 
 export const FullBoard = () => {
   const { id } = useParams();
@@ -15,9 +15,7 @@ export const FullBoard = () => {
   const isColumnsLoading = columns.status === "loading";
 
   useEffect(() => {
-    // TODO: keep the first line, delete the second
-    // dispatch(fetchColumnsWithTasks(id));
-    setTimeout(() => dispatch(fetchColumnsWithTasks(id)), 1000);
+    dispatch(fetchColumnsWithTasks(id));
   }, []);
 
   return (
@@ -32,30 +30,30 @@ export const FullBoard = () => {
         padding: "2px 2px 0 2px",
       }}
     >
-      {(isColumnsLoading ? [...Array(5)] : columns.items).map(
-        (column, index) =>
-          isColumnsLoading ? (
-            <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
-              <Column isLoading={true} />
-            </Grid>
-          ) : (
-            <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
-              <Column
-                id={column.id}
-                title={column.title}
-                tasks={column.tasks}
-                imageUrl=""
-                user={{
-                  avatarUrl: "",
-                  fullName: `${column.firstName} ${column.lastName}`,
-                }}
-                createdAt={column.createdAt}
-                tags={["react", "fun", "typescript"]}
-                isEditable
-              />
-            </Grid>
-          ),
+      {(isColumnsLoading ? [...Array(5)] : columns.items).map((column, index) =>
+        isColumnsLoading ? (
+          <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
+            <Column isLoading={true} />
+          </Grid>
+        ) : (
+          <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
+            <Column
+              id={column.id}
+              title={column.title}
+              tasks={column.tasks}
+              imageUrl=""
+              user={{
+                avatarUrl: "",
+                fullName: `${column.firstName} ${column.lastName}`,
+              }}
+              createdAt={column.createdAt}
+              tags={["react", "fun", "typescript"]}
+              isEditable
+            />
+          </Grid>
+        ),
       )}
+      {/* <ColumnCreateForm /> */}
     </Grid>
   );
 };

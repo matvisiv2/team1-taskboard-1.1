@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import styles from "./MoreMenu.module.scss";
 
-export const MoreMenu = ({ handleRemove }) => {
+export const MoreMenu = ({ handleRemove, setIsEditTitle }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -18,6 +18,10 @@ export const MoreMenu = ({ handleRemove }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOnClickEdit = () => {
+    setIsEditTitle(true);
   };
 
   const handleOnClickDelete = () => {
@@ -47,6 +51,12 @@ export const MoreMenu = ({ handleRemove }) => {
           },
         }}
       >
+        {setIsEditTitle && (
+          <MenuItem onClick={handleOnClickEdit}>
+            <DeleteIcon />
+            Edit
+          </MenuItem>
+        )}
         {handleRemove && (
           <MenuItem onClick={handleOnClickDelete}>
             <DeleteIcon />

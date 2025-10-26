@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
+export const fetchColumnCreate = createAsyncThunk(
+  "board/fetchColumnCreate",
+  async (values) => {
+    const { data } = await axios.post("/column", values);
+    return data;
+  },
+);
+
 export const fetchColumns = createAsyncThunk(
   "columns/fetchColumns",
   async (boardId) => {
@@ -38,6 +46,25 @@ const columnsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchColumnCreate.pending, (state) => {
+        // TODO: clean or do something
+        // state.boards.items = [];
+        // state.boards.status = "loading";
+      })
+      .addCase(fetchColumnCreate.fulfilled, (state, action) => {
+        state.columns.items.push({
+          ...action.payload,
+          taskCount: 3,
+        });
+        // TODO: keep if needed
+        state.boards.status = "loaded";
+      })
+      .addCase(fetchColumnCreate.rejected, (state) => {
+        // TODO: clean or do something
+        // state.boards.items = [];
+        // state.boards.status = "error";
+      })
+
       .addCase(fetchColumns.pending, (state) => {
         state.columns.items = [];
         state.columns.status = "loading";

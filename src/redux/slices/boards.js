@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchBoardCreate = createAsyncThunk(
-  "board/fetchCreateBoard",
+  "board/fetchBoardCreate",
   async (values) => {
     const { data } = await axios.post("/board", values);
     return data;
@@ -64,7 +64,7 @@ const boardsSlice = createSlice({
           commentCount: 0,
         });
         // TODO: keep if needed
-        state.boards.status = "loaded";
+        // state.boards.status = "loaded";
       })
       .addCase(fetchBoardCreate.rejected, (state) => {
         // TODO: clean or do something

@@ -7,10 +7,9 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fetchBoardCreate } from "../../../redux/slices/boards";
 import styles from "./BoardCreateForm.module.scss";
+import { showSnackbar } from "../../../redux/slices/snackbar";
 
 export const BoardCreateForm = () => {
-  const [open, setOpen] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -25,24 +24,15 @@ export const BoardCreateForm = () => {
     try {
       setIsLoading(true);
       const data = await dispatch(fetchBoardCreate(values));
-      data.payload ? setSuccess(true) : setSuccess(false);
-      setOpen(true);
+      dispatch(
+        showSnackbar({ message: "Board created succesfully", success: true }),
+      );
       form.reset();
     } catch (err) {
-      setSuccess(false);
-      setOpen(true);
       console.log(err);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
   };
 
   return (
@@ -63,19 +53,6 @@ export const BoardCreateForm = () => {
               <AddCircleOutlineIcon />
             </Button>
           </form>
-
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert
-              onClose={handleClose}
-              severity={success ? "success" : "error"}
-              variant="filled"
-              sx={{ width: "100%" }}
-            >
-              {success
-                ? "Board created successfully"
-                : "Failed to create board"}
-            </Alert>
-          </Snackbar>
         </Box>
       </Box>
     </>
