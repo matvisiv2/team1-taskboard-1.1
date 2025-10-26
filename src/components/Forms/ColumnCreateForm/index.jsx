@@ -5,17 +5,17 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { fetchBoardCreate } from "../../../redux/slices/boards";
+import { fetchColumnCreate } from "../../../redux/slices/columns";
 import { showSnackbar } from "../../../redux/slices/snackbar";
-import styles from "./BoardCreateForm.module.scss";
+import styles from "./ColumnCreateForm.module.scss";
 
-export const BoardCreateForm = () => {
+export const ColumnCreateForm = ({boardId}) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const form = useForm({
     defaultValues: {
-      title: "New board",
+      title: "New list",
     },
     mode: "onChange",
   });
@@ -23,14 +23,16 @@ export const BoardCreateForm = () => {
   const onSubmit = async (values) => {
     try {
       setIsLoading(true);
-      const data = await dispatch(fetchBoardCreate(values));
-      dispatch(
-        showSnackbar({ message: "Board created succesfully", success: true }),
-      );
+      const data = await dispatch(fetchColumnCreate({boardId, values}));
+      if (data.payload) {
+        dispatch(
+          showSnackbar({ message: "List created succesfully", success: true }),
+        );
+      }
       form.reset();
     } catch (err) {
       showSnackbar({
-        message: "Board create failed",
+        message: "List create failed",
         success: false,
       });
       console.log(err);
@@ -47,11 +49,11 @@ export const BoardCreateForm = () => {
             <TextField
               name="title"
               className={styles.field}
-              label="Create new board"
+              label="Create new list"
               fullWidth
               variant="outlined"
               size="small"
-              {...form.register("title", { required: "type board title" })}
+              {...form.register("title", { required: "type list title" })}
             />
             <Button type="submit" loading={isLoading}>
               <AddCircleOutlineIcon />

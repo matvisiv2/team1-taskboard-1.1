@@ -3,8 +3,8 @@ import axios from "../../axios";
 
 export const fetchColumnCreate = createAsyncThunk(
   "board/fetchColumnCreate",
-  async (values) => {
-    const { data } = await axios.post("/column", values);
+  async ({boardId, values}) => {
+    const { data } = await axios.post(`/column/${boardId}`, values);
     return data;
   },
 );
@@ -52,12 +52,13 @@ const columnsSlice = createSlice({
         // state.boards.status = "loading";
       })
       .addCase(fetchColumnCreate.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.columns.items.push({
           ...action.payload,
           taskCount: 3,
         });
         // TODO: keep if needed
-        state.boards.status = "loaded";
+        state.columns.status = "loaded";
       })
       .addCase(fetchColumnCreate.rejected, (state) => {
         // TODO: clean or do something

@@ -21,31 +21,23 @@ import { MoreMenu } from "../Menus/MoreMenu";
 import { useDispatch } from "react-redux";
 import { fetchRemoveColumn } from "../../redux/slices/columns";
 
-export const Column = ({
-  id,
-  title,
-  tasks,
-  children,
-  isLoading,
-  isEditable,
-}) => {
+export const Column = ({ column, children, isLoading, isEditable }) => {
   const dispatch = useDispatch();
-
 
   if (isLoading) {
     return <ColumnSkeleton />;
   }
 
   const removeColumn = () => {
-    dispatch(fetchRemoveColumn(id));
+    dispatch(fetchRemoveColumn(column?.id));
   };
 
   return (
     <div className={clsx(styles.root)}>
       <div className={styles.wrapper}>
         <h2 className={clsx(styles.title)}>
-          <Badge color="secondary" badgeContent={tasks.length}>
-            <div>{title}</div>
+          <Badge color="secondary" badgeContent={column.tasks?.length}>
+            <div>{column.title}</div>
           </Badge>
           {isEditable && (
             // <div className={styles.editButtons}>
@@ -72,7 +64,7 @@ export const Column = ({
             maxHeight: 300,
           }}
         >
-          {tasks.map((task, i) => (
+          {column.tasks?.map((task, i) => (
             <ListItem key={`item-${i}`}>
               <ListItemButton>
                 <ListItemText primary={task.title} />

@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-
 import { Grid } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Column } from "../../components/Column";
+import { ColumnCreateForm } from "../../components/Forms/ColumnCreateForm";
 import { fetchColumnsWithTasks } from "../../redux/slices/columns";
 
 export const FullBoard = () => {
@@ -38,9 +38,7 @@ export const FullBoard = () => {
         ) : (
           <Grid key={`grid-column-${index}`} sx={{ minWidth: 300 }}>
             <Column
-              id={column.id}
-              title={column.title}
-              tasks={column.tasks}
+              column={column}
               imageUrl=""
               user={{
                 avatarUrl: "",
@@ -53,7 +51,7 @@ export const FullBoard = () => {
           </Grid>
         ),
       )}
-      {/* <ColumnCreateForm /> */}
+      <ColumnCreateForm boardId={id}/>
     </Grid>
   );
 };

@@ -1,11 +1,11 @@
+import { CircularProgress, InputAdornment } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { fetchBoardChangeTitle } from "../../../redux/slices/boards";
-import styles from "./BoardTitleForm.module.scss";
-import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { showSnackbar } from "../../../redux/slices/snackbar";
+import styles from "./BoardTitleForm.module.scss";
 
 export const BoardTitleForm = ({ id, title, setIsEditTitle }) => {
   const [isLoading, setIsLoading] = useState(false);
