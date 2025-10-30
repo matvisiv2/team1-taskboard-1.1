@@ -21,6 +21,7 @@ export const MoreMenu = ({ handleRemove, setIsEditTitle }) => {
   };
 
   const handleOnClickEdit = () => {
+    handleClose();
     setIsEditTitle(true);
   };
 

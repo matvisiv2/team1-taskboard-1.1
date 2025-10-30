@@ -25,7 +25,8 @@ export const FullBoard = () => {
       spacing={4}
       wrap="nowrap"
       sx={{
-        overflowX: "auto",
+        // minWidth: "100vw",
+        // overflowX: "auto",
         flexWrap: "nowrap",
         padding: "2px 2px 0 2px",
       }}

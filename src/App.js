@@ -26,14 +26,10 @@ function App () {
           sx={{ display: "flex", overflowX: "auto", flex: 1 }}
         >
           <Routes>
-            {isAuth && (
-              <>
-                <Route path="/" element={<Navigate to="/boards" replace />} />
-                <Route path="/boards" element={<Boards />} />
-                <Route path="/board/:id" element={<FullBoard />} />
-                {/* <Route path="/account" element={<Account />} /> */}
-              </>
-            )}
+            <Route path="/" element={<Navigate to="/boards" replace />} />
+            <Route path="/boards" element={<Boards />} />
+            <Route path="/board/:id" element={<FullBoard />} />
+            {/* <Route path="/account" element={<Account />} /> */}
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<Navigate to="/signin" replace />} />

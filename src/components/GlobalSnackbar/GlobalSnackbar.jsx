@@ -14,7 +14,7 @@ const GlobalSnackbar = () => {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={4000}
+      autoHideDuration={1500}
       onClose={handleClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
     >
