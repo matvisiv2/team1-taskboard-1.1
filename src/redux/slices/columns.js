@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchColumnCreate = createAsyncThunk(
-  "board/fetchColumnCreate",
-  async ({boardId, values}) => {
+  "columns/fetchColumnCreate",
+  async ({ boardId, values }) => {
     const { data } = await axios.post(`/column/${boardId}`, values);
     return data;
   },
@@ -25,8 +25,16 @@ export const fetchColumnsWithTasks = createAsyncThunk(
   },
 );
 
-export const fetchRemoveColumn = createAsyncThunk(
-  "columns/fetchRemoveColumn",
+export const fetchColumnChangeTitle = createAsyncThunk(
+  "columns/fetchColumnChangeTitle",
+  async ({ id, values }) => {
+    const { data } = await axios.patch(`/column/${id}`, values);
+    return data;
+  },
+);
+
+export const fetchColumnRemove = createAsyncThunk(
+  "columns/fetchColumnRemove",
   async (id) => {
     const { data } = await axios.delete(`/column/${id}`);
     return data;
@@ -46,24 +54,12 @@ const columnsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchColumnCreate.pending, (state) => {
-        // TODO: clean or do something
-        // state.boards.items = [];
-        // state.boards.status = "loading";
-      })
       .addCase(fetchColumnCreate.fulfilled, (state, action) => {
         console.log(action.payload);
         state.columns.items.push({
           ...action.payload,
           taskCount: 3,
         });
-        // TODO: keep if needed
-        state.columns.status = "loaded";
-      })
-      .addCase(fetchColumnCreate.rejected, (state) => {
-        // TODO: clean or do something
-        // state.boards.items = [];
-        // state.boards.status = "error";
       })
 
       .addCase(fetchColumns.pending, (state) => {
@@ -92,7 +88,16 @@ const columnsSlice = createSlice({
         state.columns.status = "error";
       })
 
-      .addCase(fetchRemoveColumn.pending, (state, action) => {
+      .addCase(fetchColumnChangeTitle.fulfilled, (state, action) => {
+        const id = action.payload.id;
+        const column = state.columns.items.find((column) => column.id == id);
+        column.title = action.payload.title;
+      })
+      .addCase(fetchColumnChangeTitle.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchColumnRemove.pending, (state, action) => {
         state.columns.items = state.columns.items.filter(
           (obj) => obj.id !== action.meta.arg,
         );

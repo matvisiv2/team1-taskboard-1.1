@@ -9,7 +9,7 @@ import { fetchColumnCreate } from "../../../redux/slices/columns";
 import { showSnackbar } from "../../../redux/slices/snackbar";
 import styles from "./ColumnCreateForm.module.scss";
 
-export const ColumnCreateForm = ({boardId}) => {
+export const ColumnCreateForm = ({ boardId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export const ColumnCreateForm = ({boardId}) => {
   const onSubmit = async (values) => {
     try {
       setIsLoading(true);
-      const data = await dispatch(fetchColumnCreate({boardId, values}));
+      const data = await dispatch(fetchColumnCreate({ boardId, values }));
       if (data.payload) {
         dispatch(
           showSnackbar({ message: "List created succesfully", success: true }),
@@ -43,7 +43,7 @@ export const ColumnCreateForm = ({boardId}) => {
 
   return (
     <>
-      <Box className={styles.root} sx={{ width: "500px", height: "100%" }}>
+      <Box className={styles.root} sx={{ height: "100%" }}>
         <Box sx={{ height: "100%" }}>
           <form onSubmit={form.handleSubmit(onSubmit)} className={styles.form}>
             <TextField
@@ -53,6 +53,7 @@ export const ColumnCreateForm = ({boardId}) => {
               fullWidth
               variant="outlined"
               size="small"
+              sx={{ width: "256px" }}
               {...form.register("title", { required: "type list title" })}
             />
             <Button type="submit" loading={isLoading}>

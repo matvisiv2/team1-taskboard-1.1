@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchBoardCreate = createAsyncThunk(
-  "board/fetchBoardCreate",
+  "boards/fetchBoardCreate",
   async (values) => {
     const { data } = await axios.post("/board", values);
     return data;
@@ -23,7 +23,7 @@ export const fetchBoardsWithStatistics = createAsyncThunk(
 );
 
 export const fetchBoardChangeTitle = createAsyncThunk(
-  "board/fetchBoardChangeTitle",
+  "boards/fetchBoardChangeTitle",
   async ({ id, values }) => {
     const { data } = await axios.patch(`/board/${id}`, values);
     return data;
@@ -51,11 +51,6 @@ const boardsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBoardCreate.pending, (state) => {
-        // TODO: clean or do something
-        // state.boards.items = [];
-        // state.boards.status = "loading";
-      })
       .addCase(fetchBoardCreate.fulfilled, (state, action) => {
         state.boards.items.push({
           ...action.payload,
@@ -63,13 +58,6 @@ const boardsSlice = createSlice({
           taskCount: 0,
           commentCount: 0,
         });
-        // TODO: keep if needed
-        // state.boards.status = "loaded";
-      })
-      .addCase(fetchBoardCreate.rejected, (state) => {
-        // TODO: clean or do something
-        // state.boards.items = [];
-        // state.boards.status = "error";
       })
 
       .addCase(fetchBoards.pending, (state) => {
@@ -102,7 +90,9 @@ const boardsSlice = createSlice({
         const id = action.payload.id;
         const board = state.boards.items.find((board) => board.id == id);
         board.title = action.payload.title;
-        state.boards.status = "loaded";
+      })
+      .addCase(fetchBoardChangeTitle.rejected, (state) => {
+        state.columns.status = "error";
       })
 
       .addCase(fetchBoardRemove.pending, (state, action) => {
