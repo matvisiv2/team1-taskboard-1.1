@@ -21,20 +21,22 @@ export const BoardCreateForm = () => {
   });
 
   const onSubmit = async (values) => {
-    try {
+    if (values.title.trim()) {
       setIsLoading(true);
       const data = await dispatch(fetchBoardCreate(values));
-      dispatch(
-        showSnackbar({ message: "Board created succesfully", success: true }),
-      );
-      form.reset();
-    } catch (err) {
-      showSnackbar({
-        message: "Board create failed",
-        success: false,
-      });
-      console.log(err);
-    } finally {
+      if (data.error) {
+        dispatch(
+          showSnackbar({
+            message: "Failed to create board",
+            success: false,
+          }),
+        );
+      } else {
+        dispatch(
+          showSnackbar({ message: "Board created succesfully", success: true }),
+        );
+        form.reset();
+      }
       setIsLoading(false);
     }
   };

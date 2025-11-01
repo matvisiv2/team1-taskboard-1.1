@@ -92,12 +92,9 @@ const boardsSlice = createSlice({
         board.title = action.payload.title;
       })
       .addCase(fetchBoardChangeTitle.rejected, (state) => {
-        state.columns.status = "error";
+        state.boards.status = "error";
       })
 
-      .addCase(fetchBoardRemove.pending, (state, action) => {
-        state.boards.status = "loading";
-      })
       .addCase(fetchBoardRemove.fulfilled, (state, action) => {
         const id = action.meta.arg;
         state.boards.items = state.boards.items.filter((obj) => obj.id !== id);

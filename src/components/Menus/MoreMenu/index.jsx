@@ -8,8 +8,9 @@ import { useState } from "react";
 
 import styles from "./MoreMenu.module.scss";
 
-export const MoreMenu = ({ handleRemove, setIsEditTitle }) => {
+export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -25,9 +26,11 @@ export const MoreMenu = ({ handleRemove, setIsEditTitle }) => {
     setIsEditTitle(true);
   };
 
-  const handleOnClickDelete = () => {
+  const handleOnClickDelete = async () => {
+    setIsLoading(true);
     handleClose();
-    handleRemove();
+    await handleRemove();
+    setIsLoading(false);
   };
 
   return (
@@ -38,6 +41,7 @@ export const MoreMenu = ({ handleRemove, setIsEditTitle }) => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        loading={isLoading}
       >
         <MoreHorizIcon />
       </Button>

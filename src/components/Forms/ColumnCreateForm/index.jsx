@@ -21,22 +21,19 @@ export const ColumnCreateForm = ({ boardId }) => {
   });
 
   const onSubmit = async (values) => {
-    try {
+    if (values.title.trim()) {
       setIsLoading(true);
       const data = await dispatch(fetchColumnCreate({ boardId, values }));
-      if (data.payload) {
+      if (data.error) {
+        dispatch(
+          showSnackbar({ message: "Failed to create list", success: false }),
+        );
+      } else {
         dispatch(
           showSnackbar({ message: "List created succesfully", success: true }),
         );
+        form.reset();
       }
-      form.reset();
-    } catch (err) {
-      showSnackbar({
-        message: "List create failed",
-        success: false,
-      });
-      console.log(err);
-    } finally {
       setIsLoading(false);
     }
   };

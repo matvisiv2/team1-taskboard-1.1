@@ -8,14 +8,14 @@ $blue: #4361ee;
   margin-bottom: 15px;
   position: relative;
 
-  // &:hover {
-  //   border: 1px solid $blue;
-  //   box-shadow: 0 0 0 1px $blue;
+  &:hover {
+    border: 1px solid $blue;
+    box-shadow: 0 0 0 1px $blue;
 
-  //   .editButtons {
-  //     opacity: 1;
-  //   }
-  // }
+    .editButtons {
+      opacity: 1;
+    }
+  }
 
   &Full {
     &:hover {
@@ -44,6 +44,7 @@ $blue: #4361ee;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 116px;
 }
 
 .content {

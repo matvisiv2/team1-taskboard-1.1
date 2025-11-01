@@ -1,10 +1,9 @@
-import React from "react";
 import Stack from "@mui/material/Stack";
 import Skeleton from "@mui/material/Skeleton";
 
-import styles from "./Board.module.scss";
+import styles from "./GlobalSkeleton.module.scss";
 
-export const BoardSkeleton = () => {
+export const GlobalSkeleton = () => {
   return (
     <div className={styles.skeleton}>
       <Stack spacing={1}>

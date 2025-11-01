@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
+// Columns
+
 export const fetchColumnCreate = createAsyncThunk(
   "columns/fetchColumnCreate",
   async ({ boardId, values }) => {
@@ -41,6 +43,25 @@ export const fetchColumnRemove = createAsyncThunk(
   },
 );
 
+// Tasks
+export const fetchTaskCreate = createAsyncThunk(
+  "columns/fetchTaskCreate",
+  async ({ columnId, values }) => {
+    const { data } = await axios.post(`/task/${columnId}`, values);
+    return data;
+  },
+);
+
+export const fetchTaskChangeStatus = createAsyncThunk(
+  "columns/fetchTaskChangeStatus",
+  async ({ id, values }) => {
+    const { data } = await axios.patch(`/task/${id}`, values);
+    return data;
+  },
+);
+
+// Slice
+
 const initialState = {
   columns: {
     items: [],
@@ -54,8 +75,9 @@ const columnsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+
+      // Columns
       .addCase(fetchColumnCreate.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.columns.items.push({
           ...action.payload,
           taskCount: 3,
@@ -97,10 +119,36 @@ const columnsSlice = createSlice({
         state.columns.status = "error";
       })
 
-      .addCase(fetchColumnRemove.pending, (state, action) => {
+      .addCase(fetchColumnRemove.fulfilled, (state, action) => {
         state.columns.items = state.columns.items.filter(
           (obj) => obj.id !== action.meta.arg,
         );
+        state.columns.status = "loaded";
+      })
+
+      // Tasks
+      .addCase(fetchTaskCreate.fulfilled, (state, action) => {
+        const task = action.payload;
+        const column = state.columns.items.find(
+          (column) => column.id == task.columnId,
+        );
+        column.tasks.push(task);
+      })
+      .addCase(fetchTaskCreate.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchTaskChangeStatus.fulfilled, (state, action) => {
+        const taskId = action.payload.id;
+        const columnId = action.payload.columnId;
+        const column = state.columns.items.find(
+          (column) => column.id == columnId,
+        );
+        const task = column.tasks.find((task) => task.id == taskId);
+        task.done = !task.done;
+      })
+      .addCase(fetchTaskChangeStatus.rejected, (state) => {
+        state.columns.status = "error";
       });
   },
 });

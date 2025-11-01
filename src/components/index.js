@@ -1,5 +1,9 @@
 export * from "./AddComment";
 export * from "./Board";
+export * from "./BoardTitle";
+export * from "./Column";
+export * from "./ColumnTitle";
+export * from "./Task";
 export * from "./CommentsBlock";
 export * from "./Header";
 export * from "./Menus";
@@ -7,3 +11,4 @@ export * from "./Forms";
 export * from "./SideBlock";
 export * from "./TagsBlock";
 export * from "./UserInfo";
+export * from "./GlobalSkeleton";
