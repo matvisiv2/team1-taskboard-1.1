@@ -60,6 +60,14 @@ export const fetchTaskChangeStatus = createAsyncThunk(
   },
 );
 
+export const fetchTaskUpdate = createAsyncThunk(
+  "columns/fetchTaskUpdate",
+  async ({ id, values }) => {
+    const { data } = await axios.put(`/task/${id}`, values);
+    return data;
+  },
+);
+
 export const fetchTaskRemove = createAsyncThunk(
   "tasks/fetchTaskRemove",
   async (id) => {
@@ -154,8 +162,23 @@ const columnsSlice = createSlice({
         );
         const task = column.tasks.find((task) => task.id == taskId);
         task.done = !task.done;
+        state.columns.status = "loaded";
       })
       .addCase(fetchTaskChangeStatus.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchTaskUpdate.fulfilled, (state, action) => {
+        const taskId = action.payload.id;
+        const columnId = action.payload.columnId;
+        const column = state.columns.items.find(
+          (column) => column.id == columnId,
+        );
+        const task = column.tasks.find((task) => task.id == taskId);
+        Object.assign(task, action.payload);
+        state.columns.status = "loaded";
+      })
+      .addCase(fetchTaskUpdate.rejected, (state) => {
         state.columns.status = "error";
       })
 
