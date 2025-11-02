@@ -3,6 +3,7 @@ import { snackbarReducer } from "./slices/snackbar";
 import { authReducer } from "./slices/auth";
 import { boardsReducer } from "./slices/boards";
 import { columnsReducer } from "./slices/columns";
+import { taskEditFormReducer } from "./slices/taskEditForm";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     auth: authReducer,
     boards: boardsReducer,
     columns: columnsReducer,
+    taskEditForm: taskEditFormReducer,
   },
 });
 

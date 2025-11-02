@@ -11,10 +11,6 @@ $blue: #4361ee;
   &:hover {
     border: 1px solid $blue;
     box-shadow: 0 0 0 1px $blue;
-
-    .editButtons {
-      opacity: 1;
-    }
   }
 
   &Full {
@@ -75,7 +71,7 @@ $blue: #4361ee;
   }
 }
 
-.columnDetails {
+.column-details {
   display: flex;
   justify-content: center;
   column-gap: 16px;
@@ -110,13 +106,4 @@ $blue: #4361ee;
   &Info {
     margin-left: 50px;
   }
-}
-
-.editButtons {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  border-radius: 10px;
-  opacity: 0;
-  transition: all 0.15s ease-in-out;
 }

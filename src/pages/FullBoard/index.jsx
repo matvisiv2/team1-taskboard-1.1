@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Column } from "../../components/Column";
+import { TaskEditForm } from "../../components/Forms";
 import { ColumnCreateForm } from "../../components/Forms/ColumnCreateForm";
 import { fetchColumnsWithTasks } from "../../redux/slices/columns";
 
@@ -25,8 +26,6 @@ export const FullBoard = () => {
       spacing={4}
       wrap="nowrap"
       sx={{
-        // minWidth: "100vw",
-        // overflowX: "auto",
         flexWrap: "nowrap",
         padding: "2px 2px 0 2px",
       }}
@@ -52,7 +51,8 @@ export const FullBoard = () => {
           </Grid>
         ),
       )}
-      <ColumnCreateForm boardId={id}/>
+      <ColumnCreateForm boardId={id} />
+      <TaskEditForm />
     </Grid>
   );
 };

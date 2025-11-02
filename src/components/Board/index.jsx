@@ -24,7 +24,7 @@ export const Board = ({
           <BoardTitle board={board} />
         </h2>
         {children && <div className={styles.content}>{children}</div>}
-        <div className={styles.columnDetails}>
+        <div className={styles["column-details"]}>
           <div>
             <ViewColumnIcon />
             <span>{board.columnCount}</span>

@@ -1,4 +1,4 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -48,13 +48,18 @@ export const TaskCreateForm = ({ columnId }) => {
     setIsOpen(false);
   };
 
-  const handleOnBlur = () => {
+  const handleOnBlur = (event) => {
+    const nextFocus = event.relatedTarget;
+    if (nextFocus?.dataset?.role === "close-button") {
+      form.reset();
+      return;
+    }
     form.handleSubmit(onSubmit)();
   };
 
   if (!isOpen) {
     return (
-      <Button variant="contained" onClick={() => setIsOpen(true)}>
+      <Button variant="outlined" onClick={() => setIsOpen(true)}>
         Add task
       </Button>
     );
@@ -77,9 +82,14 @@ export const TaskCreateForm = ({ columnId }) => {
             onBlur: handleOnBlur,
           })}
         />
-        <Button type="submit" loading={isLoading}>
-          <AddCircleOutlineIcon />
-        </Button>
+        <div className={styles["form-buttons"]}>
+          <Button variant="contained" type="submit" loading={isLoading}>
+            Add task
+          </Button>
+          <Button onClick={() => setIsOpen(false)} data-role="close-button">
+            <CloseIcon />
+          </Button>
+        </div>
       </form>
     </Box>
   );

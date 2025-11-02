@@ -97,10 +97,14 @@ const tasksSlice = createSlice({
         state.tasks.status = "error";
       })
 
-      .addCase(fetchTaskRemove.pending, (state, action) => {
+      .addCase(fetchTaskRemove.fulfilled, (state, action) => {
         state.tasks.items = state.tasks.items.filter(
           (obj) => obj.id !== action.meta.arg,
         );
+        state.tasks.status = "loaded";
+      })
+      .addCase(fetchTaskRemove.rejected, (state) => {
+        state.tasks.status = "error";
       });
   },
 });

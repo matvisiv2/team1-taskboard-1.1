@@ -60,6 +60,14 @@ export const fetchTaskChangeStatus = createAsyncThunk(
   },
 );
 
+export const fetchTaskRemove = createAsyncThunk(
+  "tasks/fetchTaskRemove",
+  async (id) => {
+    const { data } = await axios.delete(`/task/${id}`);
+    return data;
+  },
+);
+
 // Slice
 
 const initialState = {
@@ -148,6 +156,18 @@ const columnsSlice = createSlice({
         task.done = !task.done;
       })
       .addCase(fetchTaskChangeStatus.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchTaskRemove.fulfilled, (state, action) => {
+        const taskId = action.meta.arg;
+        const column = state.columns.items.find((column) =>
+          column.tasks.map((task) => task.id).includes(taskId),
+        );
+        column.tasks = column.tasks.filter((task) => task.id !== taskId);
+        state.columns.status = "loaded";
+      })
+      .addCase(fetchTaskRemove.rejected, (state) => {
         state.columns.status = "error";
       });
   },
