@@ -63,7 +63,7 @@ export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
           </MenuItem>
         )}
         {handleRemove && (
-          <MenuItem onClick={handleOnClickDelete}>
+          <MenuItem name="basic-button" onClick={handleOnClickDelete}>
             <DeleteIcon />
             Delete
           </MenuItem>
