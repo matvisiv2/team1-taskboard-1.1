@@ -31,8 +31,8 @@ export const Column = ({ column, isFullPost, isLoading, isEditable }) => {
             <ColumnTitle column={column} />
           </ListItemButton>
           <Divider />
-          {column.tasks?.map((task, index) => (
-            <Task key={`task-${index}`} task={task} />
+          {column.tasks?.map((task) => (
+            <Task key={`task-${task.id}`} task={task} />
           ))}
           <Divider />
           <TaskCreateForm columnId={column.id} />
