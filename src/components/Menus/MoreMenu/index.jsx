@@ -1,11 +1,11 @@
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import clsx from "clsx";
 import { useState } from "react";
-
 import styles from "./MoreMenu.module.scss";
 
 export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
@@ -18,6 +18,10 @@ export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
   };
 
   const handleClose = () => {
+    // Taking focus away before the menu hides
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     setAnchorEl(null);
   };
 
@@ -29,6 +33,7 @@ export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
   const handleOnClickDelete = async () => {
     setIsLoading(true);
     handleClose();
+    await new Promise((r) => setTimeout(r, 50));
     await handleRemove();
     setIsLoading(false);
   };
@@ -58,7 +63,7 @@ export const MoreMenu = ({ setIsEditTitle, handleRemove }) => {
       >
         {setIsEditTitle && (
           <MenuItem onClick={handleOnClickEdit}>
-            <DeleteIcon />
+            <EditIcon />
             Edit
           </MenuItem>
         )}

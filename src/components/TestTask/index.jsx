@@ -1,5 +1,3 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import Checkbox from "@mui/material/Checkbox";
@@ -10,30 +8,21 @@ import ListItemText from "@mui/material/ListItemText";
 import clsx from "clsx";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchTaskChangeStatus,
-  fetchTaskRemove,
-} from "../../redux/slices/columns";
+import { fetchTaskChangeStatus } from "../../redux/slices/columns";
 import { showSnackbar } from "../../redux/slices/snackbar";
 import { showTaskEditForm } from "../../redux/slices/taskEditForm";
-import styles from "./Task.module.scss";
+import { fetchTaskRemove } from "../../redux/slices/columns";
+import styles from "./TestTask.module.scss";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-export const Task = ({ id, task }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
-
+export const TestTask = ({ task }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task.id });
   const style = {
-    transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.4 : 1,
+    transform: CSS.Transform.toString(transform),
   };
-
   const [removing, setRemoving] = useState(false);
   const dispatch = useDispatch();
 
@@ -78,9 +67,9 @@ export const Task = ({ id, task }) => {
   return (
     <ListItem
       ref={setNodeRef}
-      style={style}
       {...attributes}
       {...listeners}
+      style={style}
       className={clsx(styles.root)}
       secondaryAction={
         <>
@@ -124,7 +113,7 @@ export const Task = ({ id, task }) => {
       </ListItemIcon>
       <ListItemText
         id={`checkbox-list-label-${task.id}`}
-        sx={{ width: "200px" }}
+        sx={{ width: "200px", cursor: "pointer" }}
         primary={task.title}
       />
     </ListItem>

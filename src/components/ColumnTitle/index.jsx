@@ -83,6 +83,7 @@ export const ColumnTitle = ({ column }) => {
     return (
       <>
         <ListItemText
+          className={styles.title}
           sx={{ my: 0 }}
           primary={column.title}
           primaryTypographyProps={{

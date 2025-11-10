@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axios";
+import { parseColumnIndex, parseTaskId } from "../../utils/reordering";
 
 // Columns
 
@@ -35,6 +36,14 @@ export const fetchColumnChangeTitle = createAsyncThunk(
   },
 );
 
+export const fetchColumnChangeOrderIndex = createAsyncThunk(
+  "columns/fetchColumnChangeOrderIndex",
+  async ({ id, values }) => {
+    const { data } = await axios.patch(`/column/${id}`, values);
+    return data;
+  },
+);
+
 export const fetchColumnRemove = createAsyncThunk(
   "columns/fetchColumnRemove",
   async (id) => {
@@ -44,6 +53,7 @@ export const fetchColumnRemove = createAsyncThunk(
 );
 
 // Tasks
+
 export const fetchTaskCreate = createAsyncThunk(
   "columns/fetchTaskCreate",
   async ({ columnId, values }) => {
@@ -88,7 +98,75 @@ const initialState = {
 const columnsSlice = createSlice({
   name: "columns",
   initialState,
-  reducers: {},
+  reducers: {
+    changeColumnsOrder: (state, action) => {
+      const { activeCol, overCol, newOrderIndex } = action.payload;
+      state.columns.items[activeCol].orderIndex = newOrderIndex;
+      const [moved] = state.columns.items.splice(activeCol, 1);
+      if (!moved) return;
+      state.columns.items.splice(overCol, 0, moved);
+    },
+    moveTaskToAnotherColumn: (state, action) => {
+      const { active, over } = action.payload;
+
+      // TODO: clear /////////////////////////////
+      // console.log(active);
+      // console.log(over);
+      ////////////////////////////////////////////
+
+      const sourceColumnIndex = parseColumnIndex(active);
+      const destColumnIndex = parseColumnIndex(over);
+      // if (sourceColumnIndex === destColumnIndex) return;
+
+      // TODO: clear /////////////////////////////
+      // console.log(sourceColumnIndex);
+      // console.log(destColumnIndex);
+      ////////////////////////////////////////////
+
+      const activeTaskId = parseTaskId(active);
+      const overTaskId = parseTaskId(over);
+
+      // TODO: clear /////////////////////////////
+      // console.log(activeTaskId);
+      // console.log(overTaskId);
+      ////////////////////////////////////////////
+
+      // const sourceTasks = state.columns.items[sourceColumnIndex].tasks;
+      // const destTasks = state.columns.items[destColumnIndex].tasks ?? [];
+      const sourceTasks = [...state.columns.items[sourceColumnIndex].tasks];
+      const destTasks = [...state.columns.items[destColumnIndex].tasks];
+
+      const activeTaskIndex = sourceTasks.findIndex(
+        (task) => task.id == activeTaskId,
+      );
+      if (activeTaskIndex < 0) return;
+      const overTaskIndex = destTasks.findIndex(
+        (task) => task.id == overTaskId,
+      );
+
+      const [moved] = sourceTasks.splice(activeTaskIndex, 1);
+      if (!moved) return;
+
+      const insertIndex = overTaskIndex >= 0 ? overTaskIndex : destTasks.length;
+
+      destTasks.splice(insertIndex, 0, moved);
+
+      state.columns.items[sourceColumnIndex].tasks = [...sourceTasks];
+      state.columns.items[destColumnIndex].tasks = [...destTasks];
+    },
+    moveTaskInSameColumn: (state, action) => {
+      const {
+        sourceColumnIndex,
+        activeTaskIndex,
+        overTaskIndex,
+        newOrderIndex,
+      } = action.payload;
+      const tasks = state.columns.items[sourceColumnIndex]?.tasks;
+      const [moved] = tasks.splice(activeTaskIndex, 1) || null;
+      moved.orderIndex = newOrderIndex;
+      tasks.splice(overTaskIndex, 0, moved);
+    },
+  },
   extraReducers: (builder) => {
     builder
 
@@ -96,6 +174,7 @@ const columnsSlice = createSlice({
       .addCase(fetchColumnCreate.fulfilled, (state, action) => {
         state.columns.items.push({
           ...action.payload,
+          tasks: [],
           taskCount: 3,
         });
       })
@@ -135,6 +214,13 @@ const columnsSlice = createSlice({
         state.columns.status = "error";
       })
 
+      .addCase(fetchColumnChangeOrderIndex.fulfilled, (state) => {
+        state.columns.status = "loaded";
+      })
+      .addCase(fetchColumnChangeOrderIndex.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
       .addCase(fetchColumnRemove.fulfilled, (state, action) => {
         state.columns.items = state.columns.items.filter(
           (obj) => obj.id !== action.meta.arg,
@@ -148,7 +234,12 @@ const columnsSlice = createSlice({
         const column = state.columns.items.find(
           (column) => column.id == task.columnId,
         );
-        column.tasks.push(task);
+
+        if (column.tasks) {
+          column.tasks.push(task);
+        } else {
+          column.tasks = [task];
+        }
       })
       .addCase(fetchTaskCreate.rejected, (state) => {
         state.columns.status = "error";
@@ -175,7 +266,7 @@ const columnsSlice = createSlice({
           (column) => column.id == columnId,
         );
         const task = column.tasks.find((task) => task.id == taskId);
-        Object.assign(task, action.payload);
+        action.payload ?? Object.assign(task, action.payload);
         state.columns.status = "loaded";
       })
       .addCase(fetchTaskUpdate.rejected, (state) => {
@@ -195,5 +286,11 @@ const columnsSlice = createSlice({
       });
   },
 });
+
+export const {
+  changeColumnsOrder,
+  moveTaskToAnotherColumn,
+  moveTaskInSameColumn,
+} = columnsSlice.actions;
 
 export const columnsReducer = columnsSlice.reducer;

@@ -5,7 +5,7 @@ import styles from "./GlobalSkeleton.module.scss";
 
 export const GlobalSkeleton = () => {
   return (
-    <div className={styles.skeleton}>
+    <div className={styles.root}>
       <Stack spacing={1}>
         <div className={styles.skeletonContent}>
           <Skeleton variant="text" width={200} height={30} />

@@ -1,9 +1,9 @@
-.root {
-  display: flex;
-  margin-top: 10px;
-  padding-bottom: 20px;
-  margin-right: 20px;
-  margin-left: 17px;
+.title {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .form {

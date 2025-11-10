@@ -1,13 +1,19 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Container from "@mui/material/Container";
 import { Box } from "@mui/material";
-
-import { Header } from "./components";
-import { Boards, FullBoard, AddPost, SignIn, SignUp } from "./pages";
-import { useDispatch, useSelector } from "react-redux";
+import Container from "@mui/material/Container";
 import { useEffect } from "react";
-import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Header } from "./components";
 import GlobalSnackbar from "./components/GlobalSnackbar/GlobalSnackbar";
+import {
+  Boards,
+  FullBoard,
+  SignIn,
+  SignUp,
+  TestPage,
+  TestPage2,
+} from "./pages";
+import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
 
 function App () {
   const dispatch = useDispatch();
@@ -27,6 +33,9 @@ function App () {
         >
           <Routes>
             <Route path="/" element={<Navigate to="/boards" replace />} />
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/test/:id" element={<TestPage />} />
+            <Route path="/test2" element={<TestPage2 />} />
             <Route path="/boards" element={<Boards />} />
             <Route path="/board/:id" element={<FullBoard />} />
             {/* <Route path="/account" element={<Account />} /> */}

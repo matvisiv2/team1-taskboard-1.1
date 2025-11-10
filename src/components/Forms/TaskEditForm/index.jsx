@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,19 +7,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import clsx from "clsx";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleMdeReact from "react-simplemde-editor";
+import { fetchTaskUpdate } from "../../../redux/slices/columns";
+import { showSnackbar } from "../../../redux/slices/snackbar";
 import {
   hideTaskEditForm,
   selectTaskEditForm,
 } from "../../../redux/slices/taskEditForm";
 import styles from "./TaskEditForm.module.scss";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { wait } from "@testing-library/user-event/dist/utils";
-import { showSnackbar } from "../../../redux/slices/snackbar";
-import { fetchTaskUpdate } from "../../../redux/slices/columns";
 
 export const TaskEditForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +37,9 @@ export const TaskEditForm = () => {
   });
 
   useEffect(() => {
-    form.reset(task);
+    const newTask = { ...task };
+    delete newTask.orderIndex;
+    form.reset(newTask);
   }, [form, task]);
 
   const options = {
@@ -62,7 +63,6 @@ export const TaskEditForm = () => {
     if (values.title.trim()) {
       setIsLoading(true);
       const data = await dispatch(fetchTaskUpdate({ id: task.id, values }));
-      // const data = await wait(2000) || {id: 1};
       if (data.error) {
         dispatch(
           showSnackbar({ message: "Failed to update task", success: false }),
@@ -81,9 +81,7 @@ export const TaskEditForm = () => {
       <Dialog open={open} onClose={handleClose} PaperProps={{ elevation: 8 }}>
         <DialogTitle>Subscribe</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {task?.title}
-          </DialogContentText>
+          <DialogContentText>{task?.title}</DialogContentText>
           <form onSubmit={form.handleSubmit(onSubmit)} id="task-form">
             <TextField
               required

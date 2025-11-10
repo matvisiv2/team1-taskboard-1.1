@@ -12,3 +12,7 @@ export * from "./SideBlock";
 export * from "./TagsBlock";
 export * from "./UserInfo";
 export * from "./GlobalSkeleton";
+export * from "./TestComponent";
+export * from "./TestComponent2";
+export * from "./TestColumn";
+export * from "./TestTask";

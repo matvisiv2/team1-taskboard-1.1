@@ -7,8 +7,15 @@ $blue: #4361ee;
   overflow: hidden;
   margin-bottom: 15px;
   position: relative;
-  width: 310px;
-  height: fit-content;
+
+  // &:hover {
+  //   border: 1px solid $blue;
+  //   box-shadow: 0 0 0 1px $blue;
+
+  //   .editButtons {
+  //     opacity: 1;
+  //   }
+  // }
 
   &Full {
     &:hover {
@@ -49,10 +56,21 @@ $blue: #4361ee;
 }
 
 .title {
-  cursor: grab;
+  font-size: 18px;
+  margin: 0;
 
-  &:active {
-    cursor: grabbing;
+  a {
+    text-decoration: none;
+    color: #000;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  &Full {
+    font-size: 42px;
+    font-weight: 900;
   }
 }
 
@@ -77,15 +95,20 @@ $blue: #4361ee;
   }
 }
 
-.tasks {
-  height: fit-content;
-  min-height: 40px;
-  max-height: 54vh;
-  overflow-y: auto;
+.skeleton {
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
 
-  display: flex;
-  flex-direction: column;
-  gap: inherit;
+  &Content {
+    padding: 20px;
+  }
+
+  &Info {
+    margin-left: 50px;
+  }
 }
 
 .editButtons {
