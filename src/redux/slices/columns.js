@@ -78,6 +78,14 @@ export const fetchTaskUpdate = createAsyncThunk(
   },
 );
 
+export const fetchTaskReorder = createAsyncThunk(
+  "columns/fetchTaskReorder",
+  async ({ id, values }) => {
+    const { data } = await axios.put(`/task/${id}`, values);
+    return data;
+  },
+);
+
 export const fetchTaskRemove = createAsyncThunk(
   "tasks/fetchTaskRemove",
   async (id) => {
@@ -259,7 +267,29 @@ const columnsSlice = createSlice({
         state.columns.status = "error";
       })
 
-      .addCase(fetchTaskUpdate.fulfilled, (state, action) => {
+      .addCase(fetchTaskUpdate.pending, (state, action) => {
+        const changedTask = action.meta.arg.values;
+        const column = state.columns.items.find(
+          (column) => column.id == changedTask.columnId,
+        );
+
+        if (changedTask.archived) {
+          const destTaskIndex = column.tasks.findIndex(
+            (task) => task.id == changedTask.id,
+          );
+          column.tasks.splice(destTaskIndex, 1);
+        } else {
+          const destTask = column.tasks.find(
+            (task) => task.id == changedTask.id,
+          );
+          action.payload ?? Object.assign(destTask, changedTask);
+        }
+      })
+      .addCase(fetchTaskUpdate.rejected, (state) => {
+        state.columns.status = "error";
+      })
+
+      .addCase(fetchTaskReorder.fulfilled, (state, action) => {
         const taskId = action.payload.id;
         const columnId = action.payload.columnId;
         const column = state.columns.items.find(
@@ -269,7 +299,7 @@ const columnsSlice = createSlice({
         action.payload ?? Object.assign(task, action.payload);
         state.columns.status = "loaded";
       })
-      .addCase(fetchTaskUpdate.rejected, (state) => {
+      .addCase(fetchTaskReorder.rejected, (state) => {
         state.columns.status = "error";
       })
 

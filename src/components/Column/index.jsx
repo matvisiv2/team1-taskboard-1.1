@@ -42,6 +42,7 @@ export const Column = ({ id, column }) => {
               display: "flex",
               flexDirection: "column",
               gap: "10px",
+              maxHeight: "66vh"
             }}
           >
             <ListItemButton {...attributes} {...listeners} component="div">

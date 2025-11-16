@@ -79,7 +79,7 @@ export const TaskEditForm = () => {
   return (
     <div className={clsx(styles.root)}>
       <Dialog open={open} onClose={handleClose} PaperProps={{ elevation: 8 }}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Edit task</DialogTitle>
         <DialogContent>
           <DialogContentText>{task?.title}</DialogContentText>
           <form onSubmit={form.handleSubmit(onSubmit)} id="task-form">

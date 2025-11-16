@@ -16,3 +16,4 @@ export * from "./TestComponent";
 export * from "./TestComponent2";
 export * from "./TestColumn";
 export * from "./TestTask";
+export * from "./AddCollaborator";

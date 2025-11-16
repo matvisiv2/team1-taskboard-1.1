@@ -11,8 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import * as React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { logout } from "../../../redux/slices/auth";
-import { Navigate, useNavigate } from "react-router-dom";
 
 export const AccountMenu = () => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ export const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar src="https://mui.com/static/images/avatar/5.jpg" sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar src="https://mui.com/static/images/avatar/5.jpg">M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>

@@ -1,0 +1,14 @@
+.root {
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+}

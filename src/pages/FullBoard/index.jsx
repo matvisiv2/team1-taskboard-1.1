@@ -1,18 +1,3 @@
-import { Grid, Paper } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { Column } from "../../components/Column";
-import { TaskEditForm } from "../../components/Forms";
-import { ColumnCreateForm } from "../../components/Forms/ColumnCreateForm";
-import {
-  fetchColumnsWithTasks,
-  moveTaskToAnotherColumn,
-  moveTaskInSameColumn,
-  changeColumnsOrder,
-  fetchColumnChangeOrderIndex,
-  fetchTaskUpdate,
-} from "../../redux/slices/columns";
 import {
   closestCorners,
   DndContext,
@@ -22,10 +7,27 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { TaskCard } from "./../../components/TestComponent/TaskCard";
-import { GlobalSkeleton } from "./../../components";
-import { parseColumnIndex, parseTaskId } from "./../../utils/reordering";
+import { Box, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { BoardHeader } from "../../components/BoardHeader";
+import { Column } from "../../components/Column";
+import { TaskEditForm } from "../../components/Forms";
+import { ColumnCreateForm } from "../../components/Forms/ColumnCreateForm";
+import {
+  changeColumnsOrder,
+  fetchColumnChangeOrderIndex,
+  fetchColumnsWithTasks,
+  fetchTaskReorder,
+  moveTaskInSameColumn,
+  moveTaskToAnotherColumn,
+} from "../../redux/slices/columns";
+import { fetchBoardWithLabelsAndCollaborators } from "../../redux/slices/currentBoard";
 import { showSnackbar } from "../../redux/slices/snackbar";
+import { GlobalSkeleton } from "./../../components";
+import { TaskCard } from "./../../components/TestComponent/TaskCard";
+import { parseColumnIndex, parseTaskId } from "./../../utils/reordering";
 
 export const FullBoard = () => {
   const { id } = useParams();
@@ -34,9 +36,12 @@ export const FullBoard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchBoardWithLabelsAndCollaborators(id));
     dispatch(fetchColumnsWithTasks(id));
   }, [updateColumnsTrigger]);
 
+  const { board } = useSelector((state) => state.currentBoard);
+  const isBoardLoading = board.status === "loading";
   const { columns } = useSelector((state) => state.columns);
   const isColumnsLoading = columns.status === "loading";
 
@@ -84,7 +89,7 @@ export const FullBoard = () => {
     const columnId = columns.items[parseColumnIndex(overId)].id;
 
     const data = await dispatch(
-      fetchTaskUpdate({
+      fetchTaskReorder({
         id: taskId,
         values: { columnId: columnId, orderIndex: newOrderIndex },
       }),
@@ -113,7 +118,7 @@ export const FullBoard = () => {
 
   const changeTaskOrderOnServer = async (activeTaskId, newOrderIndex) => {
     const data = await dispatch(
-      fetchTaskUpdate({
+      fetchTaskReorder({
         id: activeTaskId,
         values: { orderIndex: newOrderIndex },
       }),
@@ -323,44 +328,47 @@ export const FullBoard = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      spacing={4}
-      wrap="nowrap"
-      sx={{
-        flexWrap: "nowrap",
-        padding: "2px 2px 0 2px",
-        overflowY: "hidden",
-      }}
-    >
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
+    <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      <BoardHeader board={board.data} loading={isBoardLoading} />
+      <Grid
+        container
+        direction="row"
+        spacing={4}
+        wrap="nowrap"
+        sx={{
+          padding: "2px 2px 0 2px",
+          overflowY: "hidden",
+          height: "100%",
+        }}
       >
-        <SortableContext
-          // items={columns.items.map((column) => column.id)}
-          items={[...columns.items.keys().map((key) => `c${key}`)]}
-          strategy={rectSortingStrategy}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
         >
-          {isColumnsLoading ? (
-            <GlobalSkeleton />
-          ) : (
-            columns.items.map((column, key) => (
-              <Column key={`column-${key}`} id={`c${key}`} column={column} />
-            ))
-          )}
-        </SortableContext>
+          <SortableContext
+            // items={columns.items.map((column) => column.id)}
+            items={[...columns.items.keys().map((key) => `c${key}`)]}
+            strategy={rectSortingStrategy}
+          >
+            {isColumnsLoading ? (
+              <GlobalSkeleton />
+            ) : (
+              columns.items.map((column, key) => (
+                <Column key={`column-${key}`} id={`c${key}`} column={column} />
+              ))
+            )}
+          </SortableContext>
 
-        <DragOverlay>
-          {activeTask ? <TaskCard task={activeTask} /> : null}
-        </DragOverlay>
-      </DndContext>
-      <ColumnCreateForm boardId={id} />
-      <TaskEditForm />
-    </Grid>
+          <DragOverlay>
+            {activeTask ? <TaskCard task={activeTask} /> : null}
+          </DragOverlay>
+        </DndContext>
+        <ColumnCreateForm boardId={id} />
+        <TaskEditForm />
+      </Grid>
+    </Box>
   );
 };
