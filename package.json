@@ -29,7 +29,10 @@
     "sass": "^1.52.1",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://github.com/matvisiv2/team1-taskboard-1.1",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -55,6 +58,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
+    "gh-pages": "^6.3.0",
     "jest": "^27.5.1"
   }
 }
