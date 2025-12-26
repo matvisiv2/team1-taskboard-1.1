@@ -1,11 +1,11 @@
-import clsx from "clsx";
-import styles from "./TestComponent2.module.scss";
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import { useState } from "react";
-import { TestColumn } from "../TestColumn";
 import { arrayMove } from "@dnd-kit/sortable";
+import clsx from "clsx";
+import { useState } from "react";
+import { TestColumn } from "../../TestColumn";
+import styles from "./MyAccount.module.scss";
 
-export const TestComponent2 = () => {
+export const MyAccount = () => {
   const [tasks, setTasks] = useState([
     { id: 1, title: "Admin panel" },
     { id: 2, title: "Profile page" },

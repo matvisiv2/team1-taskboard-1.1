@@ -27,6 +27,11 @@ export const AccountMenu = () => {
     setAnchorEl(null);
   };
 
+  const onClickMyAccount = () => {
+    handleClose();
+    navigate("/my-account");
+  };
+
   const onClickLogout = () => {
     handleClose();
     if (window.confirm("Are you sure you want to logout?")) {
@@ -90,19 +95,10 @@ export const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={onClickMyAccount}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Settings fontSize="small" />

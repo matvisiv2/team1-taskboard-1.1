@@ -8,10 +8,10 @@ import GlobalSnackbar from "./components/GlobalSnackbar/GlobalSnackbar";
 import {
   Boards,
   FullBoard,
+  MyAccount,
   SignIn,
   SignUp,
   TestPage,
-  TestPage2,
 } from "./pages";
 import { fetchAuthMe, selectIsAuth } from "./redux/slices/auth";
 
@@ -35,10 +35,9 @@ function App () {
             <Route path="/" element={<Navigate to="/boards" replace />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="/test/:id" element={<TestPage />} />
-            <Route path="/test2" element={<TestPage2 />} />
             <Route path="/boards" element={<Boards />} />
             <Route path="/board/:id" element={<FullBoard />} />
-            {/* <Route path="/account" element={<Account />} /> */}
+            <Route path="/my-account" element={<MyAccount />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<Navigate to="/signin" replace />} />
