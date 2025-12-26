@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/matvisiv2/team1-taskboard-1.1/static/css/main.41335b76.css",
+    "main.js": "/matvisiv2/team1-taskboard-1.1/static/js/main.8148a829.js",
+    "static/media/marked.cjs": "/matvisiv2/team1-taskboard-1.1/static/media/marked.9c9c2ddd2476bfe3d14a.cjs",
+    "index.html": "/matvisiv2/team1-taskboard-1.1/index.html",
+    "main.41335b76.css.map": "/matvisiv2/team1-taskboard-1.1/static/css/main.41335b76.css.map",
+    "main.8148a829.js.map": "/matvisiv2/team1-taskboard-1.1/static/js/main.8148a829.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.41335b76.css",
+    "static/js/main.8148a829.js"
+  ]
+}
