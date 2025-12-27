@@ -1,5 +1,4 @@
 import Logout from "@mui/icons-material/Logout";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -29,7 +28,7 @@ export const AccountMenu = () => {
 
   const onClickMyAccount = () => {
     handleClose();
-    navigate("/my-account");
+    navigate(`${process.env.PUBLIC_URL}/my-account`);
   };
 
   const onClickLogout = () => {
@@ -39,7 +38,7 @@ export const AccountMenu = () => {
       window.localStorage.removeItem("token");
     }
 
-    navigate("/signin");
+    navigate(`${process.env.PUBLIC_URL}/signin`);
   };
 
   return (

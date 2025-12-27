@@ -38,6 +38,7 @@ export const FullBoard = () => {
   useEffect(() => {
     dispatch(fetchBoardWithLabelsAndCollaborators(id));
     dispatch(fetchColumnsWithTasks(id));
+  // }, [id, dispatch, updateColumnsTrigger]);
   }, [updateColumnsTrigger]);
 
   const { board } = useSelector((state) => state.currentBoard);

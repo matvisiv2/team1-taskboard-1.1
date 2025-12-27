@@ -21,7 +21,7 @@ function App () {
 
   useEffect(() => {
     dispatch(fetchAuthMe());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -32,15 +32,15 @@ function App () {
           sx={{ display: "flex", overflowX: "auto", flex: 1 }}
         >
           <Routes>
-            <Route path="/" element={<Navigate to="/boards" replace />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/test/:id" element={<TestPage />} />
-            <Route path="/boards" element={<Boards />} />
-            <Route path="/board/:id" element={<FullBoard />} />
-            <Route path="/my-account" element={<MyAccount />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="*" element={<Navigate to="/signin" replace />} />
+            <Route path={process.env.PUBLIC_URL} element={<Navigate to={`${process.env.PUBLIC_URL}/boards`} replace />} />
+            <Route path={`${process.env.PUBLIC_URL}/test`} element={<TestPage />} />
+            <Route path={`${process.env.PUBLIC_URL}/test/:id`} element={<TestPage />} />
+            <Route path={`${process.env.PUBLIC_URL}/boards`} element={<Boards />} />
+            <Route path={`${process.env.PUBLIC_URL}/board/:id`} element={<FullBoard />} />
+            <Route path={`${process.env.PUBLIC_URL}/my-account`} element={<MyAccount />} />
+            <Route path={`${process.env.PUBLIC_URL}/signup`} element={<SignUp />} />
+            <Route path={`${process.env.PUBLIC_URL}/signin`} element={<SignIn />} />
+            <Route path="*" element={<Navigate to={`${process.env.PUBLIC_URL}/signin`} replace />} />
           </Routes>
           <GlobalSnackbar />
         </Container>

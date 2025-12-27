@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Navigate } from "react-router-dom";
 import { fetchSignIn, selectIsAuth } from "../../redux/slices/auth";
 import styles from "./SignIn.module.scss";
@@ -40,7 +39,7 @@ export const SignIn = () => {
   };
 
   if (isAuth) {
-    return <Navigate to="/" />;
+    return <Navigate to={process.env.PUBLIC_URL} />;
   }
 
   return (

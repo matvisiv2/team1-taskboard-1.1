@@ -1,15 +1,13 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
-
-import styles from "./SignUp.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useForm } from "react-hook-form";
-import { fetchSignUp, selectIsAuth } from "../../redux/slices/auth";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { fetchSignUp, selectIsAuth } from "../../redux/slices/auth";
+import styles from "./SignUp.module.scss";
 
 export const SignUp = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -44,7 +42,7 @@ export const SignUp = () => {
   };
 
   if (isAuth) {
-    return <Navigate to="/" />;
+    return <Navigate to={process.env.PUBLIC_URL} />;
   }
 
   return (

@@ -88,7 +88,7 @@ export const BoardTitle = ({ board }) => {
   if (!isEditTitle) {
     return (
       <>
-        <Link to={`/board/${board.id}`}>{board.title}</Link>
+        <Link to={`${process.env.PUBLIC_URL}/board/${board.id}`}>{board.title}</Link>
         <MoreMenu setIsEditTitle={setIsEditTitle} handleRemove={removeBoard} />
       </>
     );

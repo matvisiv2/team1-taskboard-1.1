@@ -15,7 +15,7 @@ export const Header = () => {
     <div className={styles.root}>
       <Container maxWidth="xl">
         <div className={styles.inner}>
-          <Link className={styles.logo} to="/">
+          <Link className={styles.logo} to={process.env.PUBLIC_URL}>
             <div className={styles.insideLogo}>
               <div>
                 <FormatListNumberedIcon className={styles.logoIcon}/>
@@ -23,7 +23,7 @@ export const Header = () => {
               <div>Taskboard 1.1</div>
             </div>
           </Link>
-          <Link className={styles.user} to="/profile">
+          <Link className={styles.user} to={`${process.env.PUBLIC_URL}/profile`}>
             {me?.firstName} {me?.lastName}
           </Link>
           <div className={styles.buttons}>
@@ -31,10 +31,10 @@ export const Header = () => {
               <AccountMenu />
             ) : (
               <>
-                <Link to="/signin">
+                <Link to={`${process.env.PUBLIC_URL}/signin`}>
                   <Button variant="outlined">Sign In</Button>
                 </Link>
-                <Link to="/signup">
+                <Link to={`${process.env.PUBLIC_URL}/signup`}>
                   <Button variant="contained">Sign Up</Button>
                 </Link>
               </>

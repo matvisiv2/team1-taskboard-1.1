@@ -16,7 +16,7 @@ export const Boards = () => {
     // TODO: keep the first line, delete the second
     // dispatch(fetchBoardsWithStatistics());
     setTimeout(() => dispatch(fetchBoardsWithStatistics()), 1000);
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box>
