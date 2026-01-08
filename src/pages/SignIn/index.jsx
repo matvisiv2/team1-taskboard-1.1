@@ -21,7 +21,7 @@ export const SignIn = () => {
   } = useForm({
     defaultValues: {
       email: "test@gmail.com",
-      password: "test1234",
+      password: "test@gmail.com",
     },
     mode: "onChange",
   });
